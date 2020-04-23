@@ -4,5 +4,4 @@
 <br>
 
 ## programmers
->level 1
-* [크레인 인형뽑기 게임](level1/크레인%20인형뽑기%20게임.js)
+- ### [level 1](level1/level1.md)
