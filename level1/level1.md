@@ -6,6 +6,7 @@
 - [완주하지 못한 선수](#완주하지-못한-선수) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64061)
 - [모의고사](#모의고사) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42840)
 - [체육복](#체육복) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42862)
+- [2016년](#2016년)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12901)
 
 <br>
 
@@ -147,5 +148,27 @@ function solution(n, lost, reserve) {
       }
     }).length
   );
+}
+```
+
+<br><br>
+
+## 2016년
+
+**접근법**
+
+<br>
+
+> **나의 풀이**
+
+> **new Date(year, monthIndex[, day[, hour[, minutes[, seconds[, milliseconds]]]]]);**
+
+**monthIndex**  
+월을 나타내는 정숫값. 0은 1월을 나타내고 11은 12월을 나타냅니다.
+
+```javascript
+function solution(a, b) {
+  const day = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  return day[new Date(2016, a - 1, b).getDay()];
 }
 ```
