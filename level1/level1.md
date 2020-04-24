@@ -6,20 +6,20 @@
 - [완주하지 못한 선수](#완주하지-못한-선수) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64061)
 - [모의고사](#모의고사) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42840)
 
-
 <br>
-
-
 
 ## 크레인 인형뽑기 게임
 
-**접근법**   
-우리가 알아야하는 정보는 배열 **각 행에서의 가장 끝 인형**과 **바구니 맨 위에 있는 인형의 종류**이다.   
+**접근법**  
+우리가 알아야하는 정보는 배열 **각 행에서의 가장 끝 인형**과 **바구니 맨 위에 있는 인형의 종류**이다.  
 따라서 나는 처음 moves의 배열을 돌며 어느 행을 탐색해야 하는지, 또 각 행에서 뽑아야하는 인형을 찾았다.
 만약 인형이 존재하지 않는다면 뽑지말고 지나가야하므로 if조건을 주었고
 인형이 존재한다면 box안의 인형의 종류와 뽑은 인형을 비교, 만약 같다면 박스의 맨 위 인형을 꺼낸다음 ans+=2 아니라면 박스에다가 인형을 집어넣는다. 그리고 크레인 안의 뽑은 인형을 없애준다.
 
->**나의 풀이**
+<br>
+
+> **나의 풀이**
+
 ```javascript
 function solution(board, moves) {
   const len = board.length;
@@ -49,14 +49,17 @@ function solution(board, moves) {
 
 ## 완주하지 못한 선수
 
-**접근법**    
-단순히 2중 FOR문을 통한 차집합 또는 완주자는 참가자의 부분집합임을 이용하여 sort후에 FOR를 한번 돌려 찾는 방법이 있지만 쉬운 문제인 만큼 배열 메소드를 이용하여 풀어보았다.   
-participant중에 한명을 찾는것이므로 participant.find()   
-누구를?? completion배열 안에 없는 사람을!   
-따라서 completion배열을 돌면서 이름 인덱스에 완주자 수를 차곡차곡 쌓는다.   
+**접근법**  
+단순히 2중 FOR문을 통한 차집합 또는 완주자는 참가자의 부분집합임을 이용하여 sort후에 FOR를 한번 돌려 찾는 방법이 있지만 쉬운 문제인 만큼 배열 메소드를 이용하여 풀어보았다.  
+participant중에 한명을 찾는것이므로 participant.find()  
+누구를?? completion배열 안에 없는 사람을!  
+따라서 completion배열을 돌면서 이름 인덱스에 완주자 수를 차곡차곡 쌓는다.  
 그리고나서 paricipant 배열을 돌며 이름을 completion배열에 비교해준다.그리고 그에 해당하는 완주자 수를 빼준다! 만약 존재하지 않는다면 undefinded, 즉 false값이 나올것이고 그를 뒤집어 true로 만들어서 return 해주면 완주하지 못한 선수가 나오게 된다.
 
->**나의 풀이**
+<br>
+
+> **나의 풀이**
+
 ```javascript
 function solution(participant, completion) {
   return participant.find(
@@ -74,8 +77,12 @@ function solution(participant, completion) {
 
 ## 모의고사
 
-**접근법**    
+**접근법**  
 딱히 설명이 필요해보이진 않는다.
+
+<br>
+
+> **나의 풀이**
 
 ```javascript
 function solution(answers) {
@@ -99,5 +106,45 @@ function solution(answers) {
   });
 
   return ans;
+}
+```
+
+<br><br>
+
+## 체육복
+
+**접근법**  
+엄청 쉽게 생각했었는데 테스트케이스 12번에서 계속 막혀 뭐가 틀렸지 계속 머리를 싸매다가
+질문글을 봤더니 이런 글이 있더라!  
+**여벌 체육복이 있는 학생만 다른 학생에게 체육복을 빌려줄 수 있습니다**  
+만약 10명의 학생이 있는데 (1,4,5) 학생이 옷을 잃어버리고 (1,3,4) 학생이 여벌의 옷이 있다면 1번->1번 3번->4번 4번->5번 이렇게 빌려 주는 것이 아닌 1번->1번 4번->4번 이런식으로 빌려줘야 하는것이었다. 3번은 5번과 2이상이 차이나므로 체육복을 입을 수 있는 학생의 수는 10이 아닌 9이었던 것이다!  
+화가 난 나는 그냥 아래 코드를 복사붙여넣기해서 lost와 reserve와의 똑같은 값은 필터링해버린 후 원래 코드를 넣었다.  
+아주 잘 돌아간다. 효율성 체크가 없는게 다행인 것 같다. 나중에 다시 더 깔끔한 코드로 수정이 필요하다.
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(n, lost, reserve) {
+  const lostt = lost.filter((lo) => {
+    const a = reserve.find((re) => lo - re === 0);
+
+    reserve = reserve.filter((e) => a !== e);
+    if (!a) {
+      return true;
+    }
+  });
+  return (
+    n -
+    lostt.filter((lo) => {
+      const a = reserve.find((re) => Math.abs(lo - re) <= 1);
+
+      reserve = reserve.filter((e) => a !== e);
+      if (!a) {
+        return true;
+      }
+    }).length
+  );
 }
 ```
