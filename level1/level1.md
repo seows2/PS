@@ -9,6 +9,7 @@
 - [2016년](#2016년)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12901)
 - [K번째수](#K번째수)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42748)
 - [실패율](#실패율)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42889)
+- [자연수 뒤집어 배열로 만들기](#자연수-뒤집어-배열로-만들기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12932)
 
 <br>
 
@@ -235,5 +236,25 @@ function solution(N, stages) {
         : b["failure"] - a["failure"];
     })
     .map((e) => e.stage);
+}
+```
+
+<br><br>
+
+## 자연수 뒤집어 배열로 만들기
+
+**접근법**  
+자르고 변환하고 합치고!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(n) {
+  return String(n)
+    .split("")
+    .reverse()
+    .map((e) => Number(e));
 }
 ```
