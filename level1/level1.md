@@ -7,6 +7,8 @@
 - [모의고사](#모의고사) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42840)
 - [체육복](#체육복) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42862)
 - [2016년](#2016년)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12901)
+- [K번째수](#K번째수)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42748)
+- [실패율](#실패율)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42889)
 
 <br>
 
@@ -170,5 +172,68 @@ function solution(n, lost, reserve) {
 function solution(a, b) {
   const day = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   return day[new Date(2016, a - 1, b).getDay()];
+}
+```
+
+<br><br>
+
+## K번째수
+
+**접근법**  
+배열을 slice한다음 오름차순 sort 후 k번째 수 ans배열에 저장!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(array, commands) {
+  let ans = [];
+  commands.forEach((e) => {
+    ans.push(array.slice(e[0] - 1, e[1]).sort((a, b) => a - b)[e[2] - 1]);
+  });
+  return ans;
+}
+```
+
+<br><br>
+
+## 실패율
+
+**접근법**  
+보통 나와있는 테스트만 통과하면 만약 틀린다해도 1~2개가 틀렸었는데 반절이 넘게 우수수 테스트가 실패해서 살짝 당황했던 문제였다.  
+내가 간과한 부분은 5, [1]과 같은 스테이지내 클리어수가 0명일 경우의 실패율 처리 실패율이 같을 경우 오름차순 sort를 하지 않은 부분이었다.  
+문제에 다 나와있는 경우였지만 뭐가 틀린거지 한참을 들여다 봤던 문제. 조금 더 꼼꼼히 있고 요구사항에 맞는 로직을 구현해야겠다.  
+기본적인 접근 방법은 stage 값를 따로 주기 귀찮아 FOR문을 돌며 stages를 돌며 현재 해당 스테이지를 클리어하지 못한사람, 이 스테이지에 도전했던 사람들을 모두 구하여 실패율을 구하고 실패율s 배열에 객체를 넘겨 실패율과 스테이지별로 정렬을 하여 리턴한다!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(N, stages) {
+  let failures = [];
+  let notClear = 0;
+  let challenger = 0;
+  for (let stage = 1; stage <= N; stage++) {
+    notClear = 0;
+    challenger = 0;
+    stages.forEach((e) => {
+      e === stage ? notClear++ : e >= stage ? challenger++ : 0;
+    });
+
+    failures.push({
+      stage,
+      failure: notClear === 0 ? 0 : notClear / (challenger + notClear),
+    });
+  }
+
+  return failures
+    .sort((a, b) => {
+      return b["failure"] === a["failure"]
+        ? a["stage"] - b["stage"]
+        : b["failure"] - a["failure"];
+    })
+    .map((e) => e.stage);
 }
 ```
