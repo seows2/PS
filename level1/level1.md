@@ -261,3 +261,39 @@ function solution(n) {
     .map((e) => Number(e));
 }
 ```
+
+<br><br>
+
+## 가운데 글자 가져오기
+
+**접근법**  
+Math.ceil -> 올림   
+Math.floor -> 내림   
+Math.round -> 반올림
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(s) {
+  return s.substr(Math.ceil(s.length / 2) - 1, !(s.length % 2) ? 2 : 1);
+}
+```
+
+<br><br>
+
+## 같은 숫자는 싫어
+
+**접근법**  
+같은 숫자는 싫다구!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(arr) {
+  return arr.filter((e, i) => e !== arr[i + 1]);
+}
+```
