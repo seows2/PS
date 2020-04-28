@@ -10,6 +10,8 @@
 - [K번째수](#K번째수) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42748)
 - [실패율](#실패율) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42889)
 - [자연수 뒤집어 배열로 만들기](#자연수-뒤집어-배열로-만들기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12932)
+- [가운데 글자 가져오기](#가운데-글자-가져오기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12932)
+- [같은 숫자는 싫어](#같은-숫자는-싫어) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12932)
 
 <br>
 

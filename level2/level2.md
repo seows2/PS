@@ -3,6 +3,7 @@
 ## 목차
 
 - [H-Index](#H-Index)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42747)
+- [숫자 야구](#숫자-야구)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42841)
 
 <br>
 
@@ -42,3 +43,58 @@ function solution(citations) {
 ```
 
 <br><br>
+
+<br>
+
+## 숫자 야구
+
+**접근법**   
+1~1000까지의 배열을 만든다음 문제 조건에 맞게 **각기 서로 다른 1~9까지 3자리 임의의 숫자**를 필터링한다.   
+이제 문제에서 주어지는 값과 ans배열을 돌면서 주어진 값에대한 스트라이크, 볼이 ans에서의 값과 동일한지를 체크한다. 예컨데 주어진 값 123이 1S 1B이라고 했을시 ans배열 안에서 123이 1S 1B이 나오는 값을 찾아 필터링 해주며 답을 찾아간다.
+
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(baseball) {
+  let ans = [...Array(1000).keys()].filter((e) => {
+    if (
+      e >= 123 &&
+      e <= 987 &&
+      String(e).charAt(0) !== "0" &&
+      String(e).charAt(1) !== "0" &&
+      String(e).charAt(2) !== "0" &&
+      String(e).charAt(0) !== String(e).charAt(1) &&
+      String(e).charAt(1) !== String(e).charAt(2) &&
+      String(e).charAt(2) !== String(e).charAt(0)
+    ) {
+      return true;
+    }
+  });
+
+  baseball.forEach(([value, strike, ball]) => {
+    ans = ans.filter((e) => {
+      let strikeCount = 0;
+      let ballCount = 0;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (String(e).charAt(i) === String(value).charAt(j) && i === j) {
+            strikeCount++;
+          } else if (
+            String(e).charAt(i) === String(value).charAt(j) &&
+            i !== j
+          ) {
+            ballCount++;
+          }
+        }
+      }
+      if (strikeCount === strike && ballCount == ball) {
+        return true;
+      }
+    });
+  });
+  return ans.length;
+}
+```
