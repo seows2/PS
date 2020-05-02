@@ -5,6 +5,8 @@
 - [H-Index](#H-Index)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42747)
 - [숫자 야구](#숫자-야구)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42841)
 - [쇠막대기](#쇠막대기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42585)
+- [기능개발](#기능개발)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42586)
+- [프린터](#프린터)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42587)
 
 <br>
 
@@ -45,13 +47,11 @@ function solution(citations) {
 
 <br><br>
 
-
 ## 숫자 야구
 
-**접근법**   
-1\~1000까지의 배열을 만든다음 문제 조건에 맞게 **각기 서로 다른 1\~9까지 3자리 임의의 숫자**를 필터링한다.   
+**접근법**  
+1\~1000까지의 배열을 만든다음 문제 조건에 맞게 **각기 서로 다른 1\~9까지 3자리 임의의 숫자**를 필터링한다.  
 이제 문제에서 주어지는 값과 ans배열을 돌면서 주어진 값에대한 스트라이크, 볼이 ans에서의 값과 동일한지를 체크한다. 예컨데 주어진 값 123이 1S 1B이라고 했을시 ans배열 안에서 123이 1S 1B이 나오는 값을 찾아 필터링 해주며 답을 찾아간다.
-
 
 <br>
 
@@ -101,15 +101,14 @@ function solution(baseball) {
 
 <br><br>
 
-
 ## 쇠막대기
 
-**접근법**   
-스택/큐를 사용하기보단 풀다보니 그냥 정수로 "("의 갯수를 세는편이 더 빠르고 편한것 같아 사용했다.   
-일단 String문자 하나하나를 돌며 arrangement가 "("인지 확인한다. "("표시는 레이저의 시작점, 또는 막대기의 시작점이므로 그냥 openBraket만 증가시킨다 검사할 대상은 바로 ")"이다. ")"표시는 막대기의 끝과 레이저 배치에 따른 잘리는 양을 담당하므로 조금 자세하게 들어갈 필요성이 있다.   
-**만약 ")"이전의 괄호가 "("일 경우**   
-레이저를 의미한다. 그럼 막대기가 잘려야하므로 openBraket의 숫자만큼 증가를 시켜준다. 따라서 레이저 괄호 1개를 제외한 openBraket갯수를 ans에 더해준다.      
-**만약 다른 경우 즉 ")"이전의 괄호가 ")"인 경우**    
+**접근법**  
+스택/큐를 사용하기보단 풀다보니 그냥 정수로 "("의 갯수를 세는편이 더 빠르고 편한것 같아 사용했다.  
+일단 String문자 하나하나를 돌며 arrangement가 "("인지 확인한다. "("표시는 레이저의 시작점, 또는 막대기의 시작점이므로 그냥 openBraket만 증가시킨다 검사할 대상은 바로 ")"이다. ")"표시는 막대기의 끝과 레이저 배치에 따른 잘리는 양을 담당하므로 조금 자세하게 들어갈 필요성이 있다.  
+**만약 ")"이전의 괄호가 "("일 경우**  
+레이저를 의미한다. 그럼 막대기가 잘려야하므로 openBraket의 숫자만큼 증가를 시켜준다. 따라서 레이저 괄호 1개를 제외한 openBraket갯수를 ans에 더해준다.  
+**만약 다른 경우 즉 ")"이전의 괄호가 ")"인 경우**  
 막대기의 끝을 의미한다. 주어진 조건에서 안잘리는 막대기는 존재하지 않으므로 openBraket갯수를 하나 줄이며 ans에 +1을 해주고 반복한다.
 
 <br>
@@ -134,5 +133,82 @@ function solution(arrangement) {
     }
   }
   return ans;
+}
+```
+
+<br><br>
+
+## 기능개발
+
+**접근법**  
+각 기능별로 얼마만큼의 일수가 지나야 작업이 완료되는지 remain함수에 전부 넣은 뒤,  
+remain 배열을 검사하면서 하루에 몇 번 배포가 가능한지 계산하고 ans배열에 넣는다.  
+remain배열을 검사하는 부분이 너무 복잡하다 단순화 할수 있을 것 같은데 머리가 돌아기질 않는다.
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(progresses, speeds) {
+  const ans = [];
+  let count = 0;
+  let index = 0;
+  let remain = progresses.map((e, i) => Math.ceil((100 - e) / speeds[i]));
+
+  for (let i = 0; i < remain.length; i++) {
+    for (let j = index; j < remain.length; j++) {
+      if (remain[i] >= remain[j]) {
+        if (j === remain.length - 1) {
+          count++;
+          ans.push(count);
+        }
+        count++;
+        index++;
+      } else if (count !== 0) {
+        ans.push(count);
+        count = 0;
+        break;
+      } else {
+        break;
+      }
+    }
+  }
+
+  return ans;
+}
+```
+
+<br><br>
+
+## 프린터
+
+**접근법**  
+코드가 너무 비효율적이다 다시 생각해보자
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(priorities, location) {
+  let ans = 1;
+  while (true) {
+    if (priorities[0] < Math.max.apply(null, priorities)) {
+      priorities.push(priorities[0]);
+      priorities.shift();
+      if (location === 0) {
+        location += priorities.length - 1;
+      } else {
+        location--;
+      }
+    } else if (location === 0) {
+      return ans;
+    } else {
+      priorities.shift();
+      ans++;
+      location--;
+    }
+  }
 }
 ```
