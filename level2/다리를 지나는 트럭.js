@@ -33,17 +33,25 @@ bridge_length	weight	truck_weights	                return
 */
 
 function solution(bridge_length, weight, truck_weights) {
-  let onBridge = 0;
+  let onBridge = [];
   let onBridgeWeight = 0;
   let time = 0;
-  truck_weights.forEach((truckWeight) => {
-    let maxWeight = weight - onBridgeWeight;
-    if (maxWeight < truckWeight) {
-      //트럭이 다리 위로 올라가면 안됌 -> 시간 체크
-    } else {
-      //트럭이 다리위로 올라가도 됌
+  while (true) {
+    if (truck_weights.length === 0 && onBridge.length === 0) {
+      break;
     }
-  });
+
+    time++;
+    if (onBridge[0] && onBridge[0].time + bridge_length === time) {
+      onBridgeWeight -= onBridge[0].weight;
+      onBridge.shift();
+    }
+    if (weight - onBridgeWeight >= truck_weights[0]) {
+      onBridgeWeight += truck_weights[0];
+      onBridge.push({ time, weight: truck_weights[0] });
+      truck_weights.shift();
+    }
+  }
   return time;
 }
-console.log(solution(5, 5, [1, 1, 1, 1, 1, 2, 2]));
+console.log(solution(2, 10, [7, 4, 5, 6]));
