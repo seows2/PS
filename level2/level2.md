@@ -10,6 +10,8 @@
 - [다리를 지나는 트럭](#다리를-지나는-트럭)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42587)
 - [스킬트리](#스킬트리)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/49993)
 - [폰켓몬](#폰켓몬)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/1845)
+- [탑](#탑)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42588)
+- [가장 큰 수](#가장-큰-수)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42746)
 
 <br>
 
@@ -215,12 +217,13 @@ function solution(priorities, location) {
   }
 }
 ```
+
 <br><br>
 
 ## 다리를 지나는 트럭
 
 **접근법**  
-while 루프를 돌면서 time을 증가시키고 차량이 다리에 내려감과 올라감이 동시에 진행되야 하므로 처음 다리 위에 차량이 있는지 검사한다.   
+while 루프를 돌면서 time을 증가시키고 차량이 다리에 내려감과 올라감이 동시에 진행되야 하므로 처음 다리 위에 차량이 있는지 검사한다.  
 존재한다면 올라가있는 차량의 시간이 다리를 다 건널 수 있을만큼의 시간인가 체크후 아니면 넘어가고 맞다면 다리 위의 중량을 빼주고 다리 위에 차량을 제거한다.
 그리고 다리 위에 차량이 올라갈 수 있다면 다리 위의 무게를 증가시켜주고 onBridge 배열에 시간체크를 위한 time과 weight를 객체로 넣어준 뒤 대기 트럭을 제거한다. 그리고 이 과정을 반복한다.
 
@@ -258,8 +261,8 @@ function solution(bridge_length, weight, truck_weights) {
 ## 스킬트리
 
 **접근법**  
-뭔가 생각하다 잘 안돼면 if문만 쓰는거 같은데 다른 사람들의 코드를 보면 참 간결하고 보기 쉽다. 따라해야할텐데...   
-쨋든 skill을 배열으로 쪼개어 편하게 쓰기 위해 뒤집는다. skill_trees를 돌며 선행되어야할 스킬트리가 뒤에 있는지, 앞에있는지 존재한다.   
+뭔가 생각하다 잘 안돼면 if문만 쓰는거 같은데 다른 사람들의 코드를 보면 참 간결하고 보기 쉽다. 따라해야할텐데...  
+쨋든 skill을 배열으로 쪼개어 편하게 쓰기 위해 뒤집는다. skill_trees를 돌며 선행되어야할 스킬트리가 뒤에 있는지, 앞에있는지 존재한다.  
 뒤부터 돌고 있으므로 현재 스킬의 인덱스가 뒤이은 스킬보다 크면 된다!! 만약 해당 skill_tree에 skill이 존재하지 않을 시 뒤에서 검사를 해봐야 하므로 filter에서 거르지 않는다. 하지만 skill이 존재하지만 뒤의 스킬이 존재하지 않는다? 선행스킬 위반이므로 즉시 false를 리턴한다.
 
 <br>
@@ -292,7 +295,7 @@ function solution(skill, skill_trees) {
 ## 폰켓몬
 
 **접근법**  
-일단 내가 최대한으로 가져갈 수 있는 폰켓몬의 갯수를 max로 잡고 배열 nums의 중복값을 모두 제거해준다.   
+일단 내가 최대한으로 가져갈 수 있는 폰켓몬의 갯수를 max로 잡고 배열 nums의 중복값을 모두 제거해준다.  
 그 뒤 nums 배열의 길이와 max값을 비교해 배열의 길이가 더 짧으면 배열의 길이를 아니면 max값을 리턴한다.
 
 <br>
@@ -304,5 +307,55 @@ function solution(nums) {
   const max = nums.length / 2;
   nums = nums.filter((e, i) => nums.indexOf(e) === i);
   return nums.length >= max ? max : nums.length;
+}
+```
+
+<br><br>
+
+## 탑
+
+**접근법**  
+height배열 원소를 하나 꺼내 height 배열을 원소 기준 왼쪽만 검사하며 큰 값이 있나 검사하고 발견된다면 index, 못하면 0을 집어넣는다!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(heights) {
+  let ans = [];
+  heights.forEach((e, index) => {
+    for (let i = index; i >= 0; i--) {
+      if (e < heights[i]) {
+        ans.push(i + 1);
+        break;
+      }
+      if (i == 0) {
+        ans.push(0);
+      }
+    }
+  });
+  return ans;
+}
+```
+
+<br><br>
+
+## 가장 큰 수
+
+**접근법**  
+**문자열로 바꾸어 return**해야합니다.
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(numbers) {
+  const ans = numbers
+    .map((e) => String(e))
+    .sort((a, b) => b + a - (a + b))
+    .join("");
+  return ans[0] === "0" ? "0" : ans;
 }
 ```
