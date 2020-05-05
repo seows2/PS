@@ -12,6 +12,8 @@
 - [폰켓몬](#폰켓몬)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/1845)
 - [탑](#탑)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42588)
 - [가장 큰 수](#가장-큰-수)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42746)
+- [큰 수 만들기](#큰-수-만들기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42883)
+- [멀쩡한 사각형](#멀쩡한-사각형)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/62048)
 
 <br>
 
@@ -386,5 +388,31 @@ function solution(number, k) {
   }
   ans.splice(ans.length - k, k);
   return ans.join("");
+}
+```
+
+## 멀쩡한 사각형
+
+**접근법**  
+찾아보니 w\*h - (w+h-두 수의 최대공약수)라는 공식이 있다고 하더라!!  
+자세한 정보는 [해당블로그](https://hyem-study.tistory.com/45)를 참고하자 그리고 외우자 그냥!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(w, h) {
+  let gcd;
+  if (w === h) {
+    return w * h - w;
+  }
+  for (let i = Math.min(w, h); i >= 1; i--) {
+    if (w % i === 0 && h % i === 0) {
+      gcd = i;
+      break;
+    }
+  }
+  return w * h - (w + h - gcd);
 }
 ```
