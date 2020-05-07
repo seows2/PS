@@ -14,6 +14,8 @@
 - [가장 큰 수](#가장-큰-수)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42746)
 - [큰 수 만들기](#큰-수-만들기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42883)
 - [멀쩡한 사각형](#멀쩡한-사각형)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/62048)
+- [124 나라의 숫자](#124-나라의-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12899)
+- [문자열 압축](#문자열-압축)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60057)
 
 <br>
 
@@ -391,6 +393,8 @@ function solution(number, k) {
 }
 ```
 
+<br><br>
+
 ## 멀쩡한 사각형
 
 **접근법**  
@@ -414,5 +418,78 @@ function solution(w, h) {
     }
   }
   return w * h - (w + h - gcd);
+}
+```
+
+<br><br>
+
+## 124 나라의 숫자
+
+**접근법**  
+규칙을 찾는 것이 중요한 문제이다.   
+124나라 : 1, 2, 4, 11, 12, 14, 21, 22, 24, 41, 42, 44, 111, 112, 114   
+숫자 :    1, 2, 3, 4 , 5 , 6 , 7 , 8 , 9 , 10, 11, 12, 13,  14 , 15    
+이런 식으로 진행이 되고 숫자를 3으로 나눈 나머지가 1, 2, 0 이면 1, 2, 4로 치환이 된다는 것을 이용한다.
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(n) {
+  let ans = "";
+  while (n > 0) {
+    if (n % 3 === 0) {
+      ans = "4" + ans;
+      n -= 1;
+    } else if (n % 3 === 1) {
+      ans = "1" + ans;
+    } else {
+      ans = "2" + ans;
+    }
+    n = Math.floor(n / 3);
+  }
+  return ans;
+}
+```
+
+<br><br>
+
+## 문자열 압축
+
+**접근법**  
+s의 slice범위를 지정하는데 조금 시간이 소요된 것 말고는 많이 어렵지 않은 문제였다.   
+s의 절반 만큼 첫번째 FOR문을 돌며 기준이 되는 문자열을 slice해준다. 두번째 FOR문에서는 slice한 문자 끝 인덱스 부터 비교를 할 문자 slice2를 잘라준다.   
+문자를 자르고 기준이 되는 문자열과 같으면 count를 올리고 아니라면 축소된 문자열(temp_str)에 저장을 해준다.   
+count가 1 이상이면 같은 문자열이 있다는 뜻이므로 count+slice를 해주고 아니면 slice만 저장한다. 이를 반복해주며 가장 짧은 문자열을 찾아 리턴한다!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(s) {
+  let ans = s.length;
+
+  for (let i = 1; i <= Math.floor(s.length / 2); i++) {
+    let temp_str = "";
+    let slice = s.slice(0, i);
+    let count = 1;
+    for (let j = i; j < s.length; j += i) {
+      let slice2 = s.slice(j, j + i);
+      if (slice === slice2) {
+        count++;
+      } else {
+        temp_str += count > 1 ? count + slice : slice;
+        slice = slice2;
+        count = 1;
+      }
+    }
+    temp_str += count > 1 ? count + slice : slice;
+    if (temp_str.length < ans) {
+      ans = temp_str.length;
+    }
+  }
+  return ans;
 }
 ```
