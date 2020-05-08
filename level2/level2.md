@@ -16,6 +16,7 @@
 - [멀쩡한 사각형](#멀쩡한-사각형)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/62048)
 - [124 나라의 숫자](#124-나라의-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12899)
 - [문자열 압축](#문자열-압축)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60057)
+- [위장](#위장)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42578)
 
 <br>
 
@@ -426,9 +427,9 @@ function solution(w, h) {
 ## 124 나라의 숫자
 
 **접근법**  
-규칙을 찾는 것이 중요한 문제이다.   
-124나라 : 1, 2, 4, 11, 12, 14, 21, 22, 24, 41, 42, 44, 111, 112, 114   
-숫자 :    1, 2, 3, 4 , 5 , 6 , 7 , 8 , 9 , 10, 11, 12, 13,  14 , 15    
+규칙을 찾는 것이 중요한 문제이다.  
+124나라 : 1, 2, 4, 11, 12, 14, 21, 22, 24, 41, 42, 44, 111, 112, 114  
+숫자 : 1, 2, 3, 4 , 5 , 6 , 7 , 8 , 9 , 10, 11, 12, 13, 14 , 15  
 이런 식으로 진행이 되고 숫자를 3으로 나눈 나머지가 1, 2, 0 이면 1, 2, 4로 치환이 된다는 것을 이용한다.
 
 <br>
@@ -458,9 +459,9 @@ function solution(n) {
 ## 문자열 압축
 
 **접근법**  
-s의 slice범위를 지정하는데 조금 시간이 소요된 것 말고는 많이 어렵지 않은 문제였다.   
-s의 절반 만큼 첫번째 FOR문을 돌며 기준이 되는 문자열을 slice해준다. 두번째 FOR문에서는 slice한 문자 끝 인덱스 부터 비교를 할 문자 slice2를 잘라준다.   
-문자를 자르고 기준이 되는 문자열과 같으면 count를 올리고 아니라면 축소된 문자열(temp_str)에 저장을 해준다.   
+s의 slice범위를 지정하는데 조금 시간이 소요된 것 말고는 많이 어렵지 않은 문제였다.  
+s의 절반 만큼 첫번째 FOR문을 돌며 기준이 되는 문자열을 slice해준다. 두번째 FOR문에서는 slice한 문자 끝 인덱스 부터 비교를 할 문자 slice2를 잘라준다.  
+문자를 자르고 기준이 되는 문자열과 같으면 count를 올리고 아니라면 축소된 문자열(temp_str)에 저장을 해준다.  
 count가 1 이상이면 같은 문자열이 있다는 뜻이므로 count+slice를 해주고 아니면 slice만 저장한다. 이를 반복해주며 가장 짧은 문자열을 찾아 리턴한다!
 
 <br>
@@ -490,6 +491,73 @@ function solution(s) {
       ans = temp_str.length;
     }
   }
+  return ans;
+}
+```
+
+<br><br>
+
+## 위장
+
+**접근법**  
+의상 종류에 따른 의상의 갯수를 LOOP를 돌며 저장한다.  
+그러면 경우의 수를 생각해보면 옷을 입는다, 안입는다 2가지의 상황이 있고 옷을 뽑는 일은 동시에 일어난다. 즉, 의상 종류에따른 갯수 외로 해당 옷을 뽑지 않는다는 경우의 수 추가가 필요하다. 그래서 모든 종류에 따른 갯수를 경우의 수로 생각하며 +1 을 해준다. (이 코드의 경우는 기본값을 2로 설정했다.) 그리고 사건은 동시에 일어나므로 서로를 곱해준다. 여기서 스파이는 적어도 하나의 옷은 갖추어 입어야하므로 모두 다 벗는 경우의 수를 1 빼준다. 처음에는 nCr - nPr 이런식으로 계산을 하다가 너무 복잡해서 인터넷을 찾아보니 이런 쉬운 방법이 있었다니!! 더 생각이 필요하다.
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(clothes) {
+  let kindOfClothe = {};
+  let ans = 1;
+  clothes.forEach((element) => {
+    kindOfClothe[element[1]] = kindOfClothe[element[1]]
+      ? kindOfClothe[element[1]] + 1
+      : 2;
+  });
+  for (const key in kindOfClothe) {
+    if (kindOfClothe.hasOwnProperty(key)) {
+      ans *= kindOfClothe[key];
+    }
+  }
+  return ans - 1;
+}
+```
+
+<br><br>
+
+## 타겟넘버
+
+**접근법**  
+dfs 깊이탐색. 노드의 부호를 하나씩 바꿔가며 스택을 쌓다가 node의 길이가 기존 배열의 길이와 같아질경우 모두를 더해본 뒤 타겟값과 같으면 ans++
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(numbers, target) {
+  let ans = 0;
+  let sum = 0;
+
+  const dfs = (numbers, node) => {
+    if (node === numbers.length) {
+      sum = 0;
+      for (const num of numbers) {
+        sum += num;
+      }
+      if (sum === target) {
+        return ans++;
+      }
+    } else {
+      numbers[node] *= 1;
+      dfs(numbers, node + 1);
+      numbers[node] *= -1;
+      dfs(numbers, node + 1);
+    }
+  };
+  dfs(numbers, 0);
   return ans;
 }
 ```
