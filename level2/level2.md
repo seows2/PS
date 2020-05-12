@@ -17,6 +17,9 @@
 - [124 나라의 숫자](#124-나라의-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12899)
 - [문자열 압축](#문자열-압축)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60057)
 - [위장](#위장)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42578)
+- [튜플](#튜플)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64065)
+- [영어 끝말잇기](#영어-끝말잇기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42578)
+- [다음 큰 숫자](#다음-큰-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12911)
 
 <br>
 
