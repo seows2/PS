@@ -1,3 +1,5 @@
+//동전 최소 갯수
+
 const MAX_INTEGER = 999999999;
 
 const solution = (k) => {
