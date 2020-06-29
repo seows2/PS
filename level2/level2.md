@@ -20,6 +20,7 @@
 - [튜플](#튜플)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64065)
 - [영어 끝말잇기](#영어-끝말잇기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42578)
 - [다음 큰 숫자](#다음-큰-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12911)
+- [괄호 변환](#괄호-변환)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60058)
 
 <br>
 
@@ -562,5 +563,70 @@ function solution(numbers, target) {
   };
   dfs(numbers, 0);
   return ans;
+}
+```
+
+<br><br>
+
+## 괄호 변환
+
+**접근법**  
+올바른 괄호 문자열을 찾아내는 기준을 정하는 것이 포인트!! 만약 ")"이라는 괄호가 "("보다 많아지는 시점이 있는 순간 올바른 괄호가 아님이 포인트!! isCorrect 부분!! 나머지는 문제 그대로 따라하면 된다.
+
+<br>
+
+> **나의 풀이**
+```js
+function solution(p) {
+  let right = 0;
+  let left = 0;
+  let isCorrect = true;
+  let answer = "";
+
+  if (p.length === 0) {
+    return "";
+  }
+
+  for (let i = 0; i < p.length; i++) {
+    const element = p[i];
+    if (element === ")") {
+      right++;
+    } else {
+      left++;
+    }
+    if (right > left) {
+      isCorrect = false;
+    }
+
+    if (right === left) {
+      let u = p.slice(0, i + 1);
+      let v = p.slice(i + 1, p.length);
+      console.log(`p : ${p}\n` + `u : ${u}\n` + `v : ${v}\n`);
+      if (isCorrect === true) {
+        answer = u + solution(v);
+        console.log(`answer : ${answer}\n`);
+
+        return answer;
+      } else {
+        answer += "(";
+        answer += solution(v);
+        answer += ")";
+        u = u
+          .slice(1, -1)
+          .split("")
+          .map((e, i) => {
+            if (e === "(") {
+              return ")";
+            } else {
+              return "(";
+            }
+          })
+          .join("");
+        answer += u;
+
+        return answer;
+      }
+    }
+  }
 }
 ```
