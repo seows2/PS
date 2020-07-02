@@ -21,6 +21,7 @@
 - [영어 끝말잇기](#영어-끝말잇기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42578)
 - [다음 큰 숫자](#다음-큰-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12911)
 - [괄호 변환](#괄호-변환)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60058)
+- [소수 찾기](#소수-찾기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42839)
 
 <br>
 
@@ -576,6 +577,7 @@ function solution(numbers, target) {
 <br>
 
 > **나의 풀이**
+
 ```js
 function solution(p) {
   let right = 0;
