@@ -9,4 +9,4 @@ const solution = (arr) => {
 
   return Math.max(...dp);
 };
-console.log(solution([31, -41, 59, 26, -53, 58, 97, -93, -23, 84]));
+console.log(solution([31, -21, 57, -26, 53, 58, 95, -53, -23, 84]));

@@ -11,6 +11,7 @@ const solution = (arr) => {
     }
     dp[i] = Math.max(MIN_INTEGER, dp[i - 1]) * arr[i];
   }
+  console.log(dp);
 
   return Math.max(...dp);
 };
