@@ -63,8 +63,7 @@ function solution(numbers) {
 
   numberArray = mergeNumber(number).map((e) => e.join(""));
   numberArray.forEach((e) => determinePrime(e));
-
-  console.log(answer);
+  console.log(numberArray);
 }
 
 solution("17");

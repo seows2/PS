@@ -23,8 +23,24 @@ name_list                    return
 */
 
 function solution(name_list) {
-  let tempArr = name_list.filter((name, index) => {
+  let answer = false;
+  const newNameList = name_list.filter((name, index) => {
     return name_list.indexOf(name) === index;
   });
+  if (newNameList.length !== name_list.length) {
+    answer = true;
+    return answer;
+  }
+  newNameList.forEach((name, index) => {
+    for (let i = 0; i < newNameList.length; i++) {
+      if (index === i) {
+        continue;
+      }
+      if (name.includes(newNameList[i] || newNameList[i].includes(name))) {
+        answer = true;
+      }
+    }
+  });
+  return answer;
 }
-console.log(solution(["가을", "우주", "너굴"]));
+console.log(solution(["봄", "여울", "봄봄"]));
