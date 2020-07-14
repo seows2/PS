@@ -26,44 +26,7 @@ numbers	return
 
 function solution(numbers) {
   const number = [...numbers];
-
-  let numberArray = [];
-  let answer = [];
-
-  const mergeNumber = (arr) => {
-    return arr.reduce(
-      (list, element) => {
-        let newList = [];
-        list.forEach((seq) => {
-          for (let i = seq.length; i >= 0; i--) {
-            let newseq = [].concat(seq);
-            newseq.splice(i, 0, element);
-            newList.push(newseq);
-          }
-        });
-        return newList;
-      },
-      [[]]
-    );
-  };
-  const determinePrime = (num) => {
-    let count = 0;
-    for (let i = 1; i <= num; i++) {
-      if (num % i === 0) {
-        count++;
-      }
-      if (count >= 3) {
-        break;
-      }
-    }
-    if (count === 2 && !answer.includes(num)) {
-      answer.push(num);
-    }
-  };
-
-  numberArray = mergeNumber(number).map((e) => e.join(""));
-  numberArray.forEach((e) => determinePrime(e));
-  console.log(numberArray);
+  console.log(number);
 }
 
 solution("17");
