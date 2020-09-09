@@ -25,8 +25,24 @@ numbers	return
 */
 
 function solution(numbers) {
-  const number = [...numbers];
-  console.log(number);
+  const numberArr = [...numbers];
+  const mergeNumbers = (arr, str) => {
+    if (arr.length > 0) {
+      console.log("if문 안", arr, str);
+      for (let i = 0; i < arr.length; i++) {
+        console.log("몇번쨔??", i);
+        const temp = [...arr];
+        temp.splice(i, 1);
+        mergeNumbers(temp, str + arr[i]);
+      }
+    }
+    if (str.length > 0) {
+      console.log("if문 밖", arr, +str);
+    }
+  };
+  mergeNumbers(numberArr, "");
 }
 
-solution("17");
+solution("12");
+//1,2,3
+//1,2,3,12,13,23,21,31,32,123,132,213,231,312,321

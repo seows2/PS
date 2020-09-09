@@ -334,7 +334,8 @@ function solution(arr) {
 - [다음 큰 숫자](#다음-큰-숫자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12911)
 - [괄호 변환](#괄호-변환)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60058)
 - [소수 찾기](#소수-찾기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42839)
-- [올바른 괄호](#올바른-괄호)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12909#)
+- [올바른 괄호](#올바른-괄호)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12909)
+- [구명보트](#구명보트)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42885)
 
 <br>
 
@@ -975,5 +976,40 @@ function solution(s) {
   } else {
     return false;
   }
+}
+```
+
+<br><br>
+
+## 올바른 괄호
+
+**접근법**  
+효율성이 얼마나 더 좋아질 수 있을까?
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(people, limit) {
+  let left = 0;
+  let right = people.length - 1;
+  let boat = 0;
+  const limits = limit;
+  people.sort((a, b) => a - b);
+  while (right > left) {
+    let weight = people[left] + people[right];
+    if (weight > limits) {
+      right--;
+    } else {
+      left++;
+      right--;
+    }
+    boat++;
+  }
+  if (right === left) {
+    boat++;
+  }
+  return boat;
 }
 ```

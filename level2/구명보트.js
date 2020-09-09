@@ -22,9 +22,23 @@ people	            limit	return
 
 function solution(people, limit) {
   let left = 0;
-  let right = people.length;
+  let right = people.length - 1;
+  let boat = 0;
+  const limits = limit;
   people.sort((a, b) => a - b);
-  console.log(people, limit, right);
+  while (right > left) {
+    let weight = people[left] + people[right];
+    if (weight > limits) {
+      right--;
+    } else {
+      left++;
+      right--;
+    }
+    boat++;
+  }
+  if (right === left) {
+    boat++;
+  }
+  return boat;
 }
-
-solution([70, 50, 80, 50], 100);
+console.log(solution([70, 80, 50], 100));
