@@ -1013,3 +1013,112 @@ function solution(people, limit) {
   return boat;
 }
 ```
+
+<br><br>
+
+# level3
+
+## 목차
+
+- [자물쇠와 열쇠](#자물쇠와-열쇠)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60059)
+
+
+<br>
+
+
+## 자물쇠와 열쇠
+
+**접근법**  
+2차원 배열이라 너무 머리가 아팠다. 공부가 필요!! 일단 필요로하는 것은 Key를 회전하는 것! 그리고 해당 키를 모든 Lock 경우에 수에 대입을 하면서 홈에 맞는지 안맞는지 확인하는 것!! Lock에 모든 키를 대입하기 위해서 Key보다 큰 tempArr 2차원 배열을 생성하고 해당 배열의 가운대에 Lock을 놓고 key를 위에서부터 차례대로 돌면서 Lock쪽의 배열이 1으로만 이루어져있는지를 검사한다!! 생각보다 for문을 남발해서 효율성이 매우 안좋지만 마땅한 방법이 생각나지 않는다.
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(key, lock) {
+  let answer = false;
+  const keyLength = key.length;
+
+  //2차원 배열 회전 함수
+  const rotate = (key) => {
+    let rotatedKey = Array.from(Array(keyLength), () =>
+      Array(keyLength).fill(0)
+    );
+    for (let i = 0; i < keyLength; i++) {
+      for (let j = 0; j < keyLength; j++) {
+        rotatedKey[i][j] = key[keyLength - 1 - j][i];
+      }
+    }
+    return rotatedKey;
+  };
+
+  //tempArray 만드는 함수
+  const makeTempArr = () => {
+    let tempArray = Array.from(Array(keyLength * 4), () =>
+      Array(keyLength * 4).fill(0)
+    );
+    //tempArray 중간에 lock 채움
+    for (let k = keyLength, i = 0; k < keyLength + lock.length; k++, i++) {
+      for (let n = keyLength, j = 0; n < keyLength + lock.length; n++, j++) {
+        tempArray[k][n] = lock[i][j];
+      }
+    }
+    return tempArray;
+  };
+
+  //존재하는 arr 초기화 함수
+  const initArr = (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].fill(0);
+    }
+    for (let k = keyLength, i = 0; k < keyLength + lock.length; k++, i++) {
+      for (let n = keyLength, j = 0; n < keyLength + lock.length; n++, j++) {
+        arr[k][n] = lock[i][j];
+      }
+    }
+    return arr;
+  };
+
+  const isAnswer = (tempArray) => {
+    for (let k = keyLength, i = 0; k < keyLength + lock.length; k++, i++) {
+      for (let n = keyLength, j = 0; n < keyLength + lock.length; n++, j++) {
+        if (tempArray[k][n] !== 1) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  let tempArray = makeTempArr();
+
+  const tempArrayLength = tempArray.length;
+
+  //회전 4번
+  for (let l = 0; l < 4; l++) {
+    key = rotate(key);
+    let row = -1;
+    for (let k = 0; k < tempArrayLength - keyLength; k++) {
+      row++;
+      let column = -1;
+      for (let n = 0; n < tempArrayLength - keyLength; n++) {
+        column++;
+        tempArray = initArr(tempArray);
+        //가로 세로 설정한대로 2차원 배열에 키 삽입
+        for (let i = row, keyW = 0; i < keyLength + row; i++, keyW++) {
+          for (let j = column, keyH = 0; j < keyLength + column; j++, keyH++) {
+            tempArray[i][j] = tempArray[i][j] + key[keyW][keyH];
+          }
+        }
+        if (isAnswer(tempArray)) {
+          answer = true;
+          return answer;
+        }
+      }
+    }
+  }
+
+  return answer;
+}
+```
