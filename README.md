@@ -1,4 +1,5 @@
 # Problem Solving 저장소
+
 하루 한개 이상을 목표로 합니다.
 
 <br>
@@ -7,6 +8,7 @@
 
 - [level1](#level1)
 - [level2](#level2)
+- [level3](#level3)
 
 <br>
 
@@ -279,8 +281,8 @@ function solution(n) {
 ## 가운데 글자 가져오기
 
 **접근법**  
-Math.ceil -> 올림   
-Math.floor -> 내림   
+Math.ceil -> 올림  
+Math.floor -> 내림  
 Math.round -> 반올림
 
 <br>
@@ -1022,9 +1024,7 @@ function solution(people, limit) {
 
 - [자물쇠와 열쇠](#자물쇠와-열쇠)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60059)
 
-
 <br>
-
 
 ## 자물쇠와 열쇠
 
