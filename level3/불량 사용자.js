@@ -95,8 +95,34 @@ function solution(user_id, banned_id) {
     banArrs.push(banArr);
   });
 
-  const tc = {};
-  console.log(banArrs);
+  let temp = {};
+  let temp2 = {};
+
+  const search = (index, till) => {
+    if (index === banArrs.length) {
+      const s = [...till].sort().join("");
+      if (temp2[s]) {
+        return;
+      }
+      temp2[s] = true;
+      answer++;
+      return;
+    }
+
+    for (const banId of banArrs[index]) {
+      if (temp[banId]) {
+        continue;
+      }
+      temp[banId] = true;
+      till.push(banId);
+      search(index + 1, till);
+      temp[banId] = false;
+      till.pop();
+    }
+  };
+  search(0, []);
+
+  return answer;
 }
 
 solution(

@@ -1023,6 +1023,7 @@ function solution(people, limit) {
 ## 목차
 
 - [자물쇠와 열쇠](#자물쇠와-열쇠)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60059)
+- [불량 사용자](#불량-사용자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64064)
 
 <br>
 
@@ -1118,6 +1119,67 @@ function solution(key, lock) {
       }
     }
   }
+
+  return answer;
+}
+```
+
+<br>
+
+## 불량 사용자
+
+**접근법**  
+각각의 banned_id를 정규식으로 표현하여 각 banned_id규칙마다 뽑힐 수 있는 user_id의 배열을 banArrs에 집어넣는다.
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(user_id, banned_id) {
+  const exps = banned_id.map((id) => {
+    return new RegExp(`^${id.replace(/\*/g, ".")}$`);
+  });
+  let answer = 0;
+
+  const banArrs = [];
+
+  exps.forEach((exp) => {
+    const banArr = [];
+    user_id.forEach((user) => {
+      if (exp.test(user)) {
+        banArr.push(user);
+      }
+    });
+    banArrs.push(banArr);
+  });
+
+  let temp = {};
+  let temp2 = {};
+
+  const search = (index, till) => {
+    if (index === banArrs.length) {
+      const s = [...till].sort().join("");
+      if (temp2[s]) {
+        return;
+      }
+      temp2[s] = true;
+      answer++;
+      return;
+    }
+
+    for (const banId of banArrs[index]) {
+      if (temp[banId]) {
+        continue;
+      }
+      temp[banId] = true;
+      till.push(banId);
+      search(index + 1, till);
+      temp[banId] = false;
+      till.pop();
+    }
+  };
+  search(0, []);
 
   return answer;
 }
