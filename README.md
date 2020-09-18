@@ -1130,6 +1130,7 @@ function solution(key, lock) {
 
 **접근법**  
 각각의 banned_id를 정규식으로 표현하여 각 banned_id규칙마다 뽑힐 수 있는 user_id의 배열을 banArrs에 집어넣는다.
+여기서 불량사용자가 될 수 있는 경우의 수를 뽑아내야하는데 temp객체를 만들어 {사용자 아이다 : Boolean} 조합을 이용하여 해당 사용자가 이미 뽑혀있는지, 뽑히지 않았는지에 대해 판단한다.
 
 <br>
 
