@@ -26,6 +26,7 @@
 - [자연수 뒤집어 배열로 만들기](#자연수-뒤집어-배열로-만들기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12932)
 - [가운데 글자 가져오기](#가운데-글자-가져오기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12903)
 - [같은 숫자는 싫어](#같은-숫자는-싫어) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12906)
+- [[카카오 인턴] 키패드 누르기](#[카카오-인턴]-키패드-누르기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67256)
 
 <br>
 
@@ -311,6 +312,79 @@ function solution(arr) {
   return arr.filter((e, i) => e !== arr[i + 1]);
 }
 ```
+
+<br><br>
+
+## [카카오 인턴] 키패드 누르기
+
+**접근법**  
+요즘 책을 안읽어서 그런지 문제가 무슨 소리인지를 몰라서 약간 헤맨 문제. 카카오는 문제가 너무 길고 어렵다 ㅠㅠㅠ 더 연습해야해..!!
+일단 키보드를 사전처럼 하드코딩하여 포지션을 매칭시켜놨다. 그 다음 number마다 왼손 오른쪽의 위치를 파악하고 거리를 계산하여 answer에다가 넣기!!!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(numbers, hand) {
+  let currentLeftHand = "*";
+  let currentRightHand = "#";
+  let answer = "";
+
+  const keyboard = {
+    1: [0, 0],
+    2: [0, 1],
+    3: [0, 2],
+    4: [1, 0],
+    5: [1, 1],
+    6: [1, 2],
+    7: [2, 0],
+    8: [2, 1],
+    9: [2, 2],
+    "*": [3, 0],
+    0: [3, 1],
+    "#": [3, 2],
+  };
+
+  const calDistance = (hand, rightPos, leftPos, target) => {
+    const distFromRight =
+      Math.abs(rightPos[0] - target[0]) + Math.abs(rightPos[1] - target[1]);
+    const distFromLeft =
+      Math.abs(leftPos[0] - target[0]) + Math.abs(leftPos[1] - target[1]);
+    if (distFromLeft === distFromRight) {
+      return hand === "right" ? "R" : "L";
+    } else {
+      return distFromRight > distFromLeft ? "L" : "R";
+    }
+  };
+
+  numbers.forEach((number) => {
+    if (number === 1 || number === 4 || number === 7) {
+      answer += "L";
+      currentLeftHand = number;
+    } else if (number === 3 || number === 6 || number === 9) {
+      answer += "R";
+      currentRightHand = number;
+    } else {
+      const RorL = calDistance(
+        hand,
+        keyboard[currentRightHand],
+        keyboard[currentLeftHand],
+        keyboard[number]
+      );
+      if (RorL === "R") {
+        currentRightHand = number;
+      } else {
+        currentLeftHand = number;
+      }
+      answer += RorL;
+    }
+  });
+  return answer;
+}
+```
+
+<br>
 
 # level2
 
