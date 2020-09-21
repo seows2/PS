@@ -386,6 +386,66 @@ function solution(numbers, hand) {
 
 <br>
 
+<br><br>
+
+## 비밀지도
+
+**접근법**
+지문에 맞게 위에서부터 아래로 만들었고 잘 작동했다 근데 다른사람이 단 한줄에 짠 풀이를 보고 진이 빠졌다... 시간도 약 20배 이상 차이나구,... 대단한사람들..! 일단 주어진 10진수 배열 2개를 2진수로 변환하는 작업을 필요로했다. Array.from과 toString을 통해 2진수로 변환하고 자리수도 맞춰서 2진수 배열 2개를 만들어주고 for문을 돌며 각각의 요소를 비교하며 #인지 공백인지 검사했다!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(n, arr1, arr2) {
+  const secretMap1 = Array.from(arr1, (x) => {
+    if (x.toString(2).length === n) {
+      return x.toString(2);
+    } else {
+      let newString = "";
+      for (let i = 0; i < n - x.toString(2).length; i++) {
+        newString += "0";
+      }
+      return newString + x.toString(2);
+    }
+  });
+  const secretMap2 = Array.from(arr2, (x) => {
+    if (x.toString(2).length === n) {
+      return x.toString(2);
+    } else {
+      let newString = "";
+      for (let i = 0; i < n - x.toString(2).length; i++) {
+        newString += "0";
+      }
+      return newString + x.toString(2);
+    }
+  });
+
+  const makeSecretMap = (secretMap1, secretMap2) => {
+    let answer = [];
+    for (let i = 0; i < n; i++) {
+      let line = "";
+      for (let j = 0; j < n; j++) {
+        if (secretMap1[i][j] === "1" || secretMap2[i][j] === "1") {
+          line += "#";
+        } else {
+          line += " ";
+        }
+      }
+      answer.push(line);
+    }
+    return answer;
+  };
+
+  const answer = makeSecretMap(secretMap1, secretMap2);
+
+  return answer;
+}
+```
+
+<br>
+
 # level2
 
 ## 목차
