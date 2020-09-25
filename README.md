@@ -472,6 +472,7 @@ function solution(n, arr1, arr2) {
 - [소수 찾기](#소수-찾기)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42839)
 - [올바른 괄호](#올바른-괄호)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12909)
 - [구명보트](#구명보트)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42885)
+- [수식 최대화](#수식-최대화) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67257)
 
 <br>
 
@@ -1147,6 +1148,50 @@ function solution(people, limit) {
     boat++;
   }
   return boat;
+}
+```
+
+<br><br>
+
+## 수식 최대화
+
+**접근법**  
+하루종일 삽질한 문제. 우선 순위를 어떤식으로 할당해줘야할까. 함수?? 배열?? 우선순위는 둘째치고 계산은 어떻게해야하는거지?? 생각이 복잡했고 결국 eval을 통해 문제를 풀었다. 다른 풀이를 보니 중위표현식을 후위표현식으로 바꿔서 푼 사람이 많았다. 비록 정석적인 풀이는 하지 못했지만 다시 배운다. 대단하다 카카오!
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(expression) {
+  const PLUS = "+";
+  const MINUS = "-";
+  const MUL = "*";
+  const priority = [
+    [PLUS, MINUS, MUL],
+    [PLUS, MUL, MINUS],
+    [MINUS, MUL, PLUS],
+    [MINUS, PLUS, MUL],
+    [MUL, MINUS, PLUS],
+    [MUL, PLUS, MINUS],
+  ];
+  let answer = -1;
+
+  for (const pri of priority) {
+    const temp = expression.split(/(\D)/);
+    for (const exp of pri) {
+      while (temp.includes(exp)) {
+        const idx = temp.indexOf(exp);
+        temp.splice(
+          idx - 1,
+          3,
+          eval(temp[idx - 1] + temp[idx] + temp[idx + 1])
+        );
+      }
+    }
+    answer = answer > Math.abs(temp[0]) ? answer : Math.abs(temp[0]);
+  }
+  return answer;
 }
 ```
 
