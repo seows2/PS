@@ -1197,6 +1197,53 @@ function solution(expression) {
 
 <br><br>
 
+## 뉴스 클러스터링
+
+**접근법**  
+생각보다 오래 걸린 문제. 보자마자 음~ 필터로 거르고~ 합집합 교집합 나누기. 그래! 하지만 어림도 없었다. 문제는 다 풀었는데 요구조건을 간과해서 오래걸린 문제. 그리고 교집합을 만드는데 너무 오래 걸렸다. 처음에는 교집합을 필터 str1.filter(x => str2.includes(x)) 이런식으로 짰는데 문제점이 예제3에 있었다 만약. str1이 {aa,aa,aa} 이고 str2가 {aa,aa} 이면 정확한 결과가 나오지 않는다. str1을 돌면서 str2의 공통부분을 찾아야하는데 aa는 계속 존재하므로 aa가 3개 나와버린다. 그래서 temp배열을 복사하여 하나씩 빼는 과정을 더했고 마지막으로 분모, 분자에 0이 나오는 조건을 제대로 파악하지 못했다. 계산 못하면 65535~ 하고 바로 리턴했는데 계속 실패가 나서 30분 동안 들여다 봤다. 화가난다! 읽자 서우석!
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(str1, str2) {
+  const makeArr = (str) => {
+    str = str.toLowerCase();
+    const exp = new RegExp(/[A-Za-z]{2}/);
+    let temp = [];
+    for (let i = 0; i < str.length - 1; i++) {
+      if (exp.test(str.substr(i, 2))) {
+        temp.push(str.substr(i, 2));
+      }
+    }
+    return temp;
+  };
+
+  const str1Arr = makeArr(str1);
+  const str2Arr = makeArr(str2);
+  let temp = str2Arr.slice();
+  const intersection = str1Arr.filter((x) => {
+    if (temp.includes(x)) {
+      const idx = temp.indexOf(x);
+      temp.splice(idx, 1);
+      return x;
+    }
+  });
+  const sumOfSetLength = str1Arr.length + str2Arr.length - intersection.length;
+
+  if (sumOfSetLength === 0) {
+    return 65536;
+  } else if (intersection.length === 0) {
+    return 0;
+  } else {
+    return Math.floor((intersection.length / sumOfSetLength) * 65536);
+  }
+}
+```
+
+<br><br>
+
 # level3
 
 ## 목차
