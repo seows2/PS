@@ -53,7 +53,34 @@ expression	            result
 */
 
 function solution(expression) {
-  console.log(expression);
+  const PLUS = "+";
+  const MINUS = "-";
+  const MUL = "*";
+  const priority = [
+    [PLUS, MINUS, MUL],
+    [PLUS, MUL, MINUS],
+    [MINUS, MUL, PLUS],
+    [MINUS, PLUS, MUL],
+    [MUL, MINUS, PLUS],
+    [MUL, PLUS, MINUS],
+  ];
+  let answer = -1;
+
+  for (const pri of priority) {
+    const temp = expression.split(/(\D)/);
+    for (const exp of pri) {
+      while (temp.includes(exp)) {
+        const idx = temp.indexOf(exp);
+        temp.splice(
+          idx - 1,
+          3,
+          eval(temp[idx - 1] + temp[idx] + temp[idx + 1])
+        );
+      }
+    }
+    answer = answer > Math.abs(temp[0]) ? answer : Math.abs(temp[0]);
+  }
+  return answer;
 }
 
 solution("100-200*300-500+20");
