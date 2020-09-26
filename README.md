@@ -1244,6 +1244,117 @@ function solution(str1, str2) {
 
 <br><br>
 
+## 프렌즈4블록
+
+**접근법**  
+본격 이게 맞아?? 풀이;; 어렵고 너무 난잡한코드. 사실 다른사람 코드 봐도 뭔소리인지 모르겠고 내 코드를 봐도 뭔소린지 모르겠다. 일단 중요한 함수 removeBlock() - board가 들어오면 2x2가 있는 배열의 좌상단 위치를 찾는다 예컨대 2번쨰 입출력예제라 치면 [1,0],[1,4],[2,1]이라고 할 수 있다. 해당 위치를 팡!스택에 넣어준뒤 그 반경의 배열을 모조리 지워준다!! substr함수를 이용했지만 뭔가 더 똑똑한 방법이 있을거같다. 근데 난 잘 모르겠다. 다음은 터트리고 난 뒤 구멍을 아래로 내리면서 메워줘야한다. 바로 fall()함수이다.  
+fall() 함수가 들어오면 아래서부터 위로 그리고 오른쪽에서 왼쪽으로 돌면서 공백이 존재하는 위치를 찾아준다. 그리고 그 위치를 기억해준다음 더 위를 서치해준다. 만약 위에 공백이 아닌 문자가 나온다면 기억한 위치로 해당 문자를 넣어준다! 그리고 이 것을 계속 반복해준다.라는 단순한 기획이었는데 생각보다 잘 안돼서 코드가 너저분. 그리고 이 removeBlock()과 fall()을 계속해서 반복하다 더이상 변하지 않을 때 공백의 갯수를 구해 answer 값을 찾는다. 배열 비교함수는 블로그에서 긁어왔다 고마워요 블로그 이게 level2가 맞나요 근데?
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(m, n, board) {
+  let answer = 0;
+  const removeBlock = (board) => {
+    let temp = board.slice();
+    let pangStack = [];
+    for (let i = 0; i < m - 1; i++) {
+      for (let j = 0; j < n - 1; j++) {
+        if (
+          temp[i][j] &&
+          temp[i][j + 1] &&
+          temp[i + 1][j] &&
+          temp[i + 1][j + 1] &&
+          temp[i][j] === temp[i][j + 1] &&
+          temp[i][j + 1] === temp[i + 1][j] &&
+          temp[i + 1][j] === temp[i + 1][j + 1] &&
+          temp[i][j] === temp[i + 1][j + 1]
+        ) {
+          pangStack.push([i, j]);
+        }
+      }
+    }
+    pangStack.forEach((el) => {
+      let i = el[0];
+      let j = el[1];
+      temp[i] = temp[i].substr(0, j) + "  " + temp[i].substr(j + 2);
+      temp[i + 1] = temp[i + 1].substr(0, j) + "  " + temp[i + 1].substr(j + 2);
+    });
+
+    return temp;
+  };
+
+  const fall = (board) => {
+    let temp = board.slice();
+    for (let i = 0; i < n; i++) {
+      for (let j = m - 1; j >= 0; j--) {
+        if (temp[j][i] === " ") {
+          for (let k = j - 1; k >= 0; k--) {
+            if (temp[k][i] !== " ") {
+              temp[j] =
+                temp[j].substr(0, i) + temp[k][i] + temp[j].substr(i + 1);
+              temp[k] = temp[k].substr(0, i) + " " + temp[k].substr(i + 1);
+              break;
+            }
+          }
+        }
+      }
+    }
+    return temp;
+  };
+
+  function compareArray(arr1, arr2) {
+    // 결과값
+    var rst = false;
+
+    // 길이가 다르면 다른 배열이라고 판단
+    if (arr1.length != arr2.length) {
+      return rst;
+    }
+
+    // arr1 배열의 크기만큼 반복
+    arr1.forEach(function (item) {
+      // arr1 배열 아이템이, arr2 배열에 있는지 확인
+      // 있으면, arr2에 item이 존재하는 index 리턴
+      // 없으면, -1 리턴
+      var i = arr2.indexOf(item);
+
+      // 존재하면, splice함수를 이용해서 arr2 배열에서 item 삭제
+      if (i > -1) arr2.splice(i, 1);
+    });
+
+    // compare2의 길이가 0이면 동일하다고 판단.
+    rst = arr2.length == 0;
+
+    return rst;
+  }
+
+  //im-first-rate.tistory.com/79 [웃으면 1류다]
+  let board2 = board.slice();
+
+  while (true) {
+    let lastBoard = board2.slice();
+    board2 = removeBlock(board2);
+    board2 = fall(board2);
+    if (compareArray(board2, lastBoard)) {
+      break;
+    }
+  }
+  board2.forEach((el) => {
+    for (const ell of el) {
+      if (ell.match(/\W/)) {
+        answer++;
+      }
+    }
+  });
+  return answer;
+}
+```
+
+<br><br>
+
 # level3
 
 ## 목차
