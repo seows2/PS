@@ -473,6 +473,7 @@ function solution(n, arr1, arr2) {
 - [올바른 괄호](#올바른-괄호)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12909)
 - [구명보트](#구명보트)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42885)
 - [수식 최대화](#수식-최대화) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67257)
+- [캐시](#캐시) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17680)
 
 <br>
 
@@ -1349,6 +1350,47 @@ function solution(m, n, board) {
       }
     }
   });
+  return answer;
+}
+```
+
+<br><br>
+
+## 캐시
+
+**접근법**
+처음에 LRU가 뭔지 몰라 당황했던 문제 검색해보니 바로 기억. cacheSize가 0이면 MISS와 시티의 갯수를 곱해서 바로 리턴 나머지는 cities를 돌면서 city를 소문자로 만들어 규격을 맞춘 뒤 city가 존재하는지 확인. 있다면 time을 갱신해준뒤 HIT만큼 더하기 없다면 캐시사이즈와 갱신시간을 비교하며 지울 배열을 찾은뒤 삽입 및 제거 나같은 경우는 시간을 기준으로 정렬을 사용하여 Shift를 사용해 주었다.
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(cacheSize, cities) {
+  if (!cacheSize) return cities.length * 5;
+  let arr = [];
+  let time = 0;
+  let answer = 0;
+  cities.forEach((city) => {
+    city = city.toLowerCase();
+    const index = arr.findIndex((el) => el.city === city);
+    if (index !== -1) {
+      //배열 안에 시티가 있음
+      arr[index].time = time++;
+      answer++;
+    } else {
+      //배열 안에 시티가 없음
+      arr.sort((a, b) => a.time - b.time);
+      if (arr.length === cacheSize) {
+        arr.shift();
+        arr.push({ city, time: time++ });
+      } else {
+        arr.push({ city, time: time++ });
+      }
+      answer += 5;
+    }
+  });
+
   return answer;
 }
 ```
