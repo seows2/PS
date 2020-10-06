@@ -26,21 +26,30 @@ numbers	return
 
 function solution(numbers) {
   const numberArr = [...numbers];
-  const mergeNumbers = (arr, str) => {
-    if (arr.length > 0) {
-      console.log("if문 안", arr, str);
-      for (let i = 0; i < arr.length; i++) {
-        console.log("몇번쨔??", i);
-        const temp = [...arr];
-        temp.splice(i, 1);
-        mergeNumbers(temp, str + arr[i]);
+  const getComb = (arr) => {
+    let flag = new Array(arr.length).fill(false);
+    const combs = [];
+
+    const combFuc = (depth) => {
+      if (depth === arr.length) {
+        const comb = arr.filter((_, index) => flag[index]);
+        combs.push(comb);
+
+        return;
       }
-    }
-    if (str.length > 0) {
-      console.log("if문 밖", arr, +str);
-    }
+
+      flag[depth] = true;
+      combFuc(depth + 1);
+
+      flag[depth] = false;
+      combFuc(depth + 1);
+    };
+
+    combFuc(0);
+
+    return combs;
   };
-  mergeNumbers(numberArr, "");
+  console.log(getComb(numberArr));
 }
 
 solution("12");

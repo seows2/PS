@@ -1397,6 +1397,79 @@ function solution(cacheSize, cities) {
 
 <br><br>
 
+## 후보키
+
+**접근법**
+속성별로의 조합을 만듬(getComb 함수) => 속성별의 슈퍼키를 만듬 (Comb를 filter) : 각 튜플의 정해진 속성을 뽑아 String으로 만든뒤 배열에 저장, 배열에 저장이 되있다면 유일성에 위배. false 리턴 => 슈퍼키로 후보키를 만듬(superKeys filter) : 후보키는 튜플을 구분할 최소한의 속성으로 이루어져야 함. 즉, 후보키에 슈퍼키의 부분집합이 있어서는 안됨.(superKey[i].every 부분)
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(relation) {
+  const getComb = (arr) => {
+    let flag = new Array(arr.length).fill(false);
+    const combs = [];
+
+    const combFuc = (depth) => {
+      if (depth === arr.length) {
+        const comb = arr.filter((_, index) => flag[index]);
+        combs.push(comb);
+        return;
+      }
+      flag[depth] = true;
+      combFuc(depth + 1);
+
+      flag[depth] = false;
+      combFuc(depth + 1);
+    };
+
+    combFuc(0);
+
+    return combs;
+  };
+  const tupleToString = (tuple, set) => {
+    return set.reduce((str, value) => {
+      return str + tuple[value];
+    }, "");
+  };
+
+  const attributes = new Array(relation[0].length)
+    .fill(0)
+    .map((value, index) => value + index);
+
+  const comb = getComb(attributes);
+
+  const superKeys = comb.filter((set) => {
+    const tuples = [];
+
+    for (const rel of relation) {
+      const tupleStr = tupleToString(rel, set);
+      if (tuples.includes(tupleStr)) {
+        return false;
+      } else {
+        tuples.push(tupleStr);
+      }
+    }
+    return true;
+  });
+
+  const candiadateKeys = superKeys.filter((key, index) => {
+    for (let i = 0; i < superKeys.length; i++) {
+      if (i === index) continue;
+      if (superKeys[i].every((value) => key.includes(value))) return false;
+    }
+
+    return true;
+  });
+
+  return candiadateKeys.length;
+}
+```
+
+<br><br>
+
 # level3
 
 ## 목차
