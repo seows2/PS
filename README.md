@@ -474,6 +474,7 @@ function solution(n, arr1, arr2) {
 - [구명보트](#구명보트)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42885)
 - [수식 최대화](#수식-최대화) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67257)
 - [캐시](#캐시) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17680)
+- [카펫](#카펫) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42842)
 
 <br>
 
@@ -1465,6 +1466,35 @@ function solution(relation) {
   });
 
   return candiadateKeys.length;
+}
+```
+
+<br><br>
+
+## 카펫
+
+**접근법**
+갈 = 2(W+H)-4, 노 = W\*H-b
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(brown, yellow) {
+  const total = brown + yellow;
+  for (let i = 1; i < total / 2; i++) {
+    const heigth = i;
+    const width = total / heigth;
+    if (!Number.isInteger(width)) continue;
+
+    if (
+      2 * (width + heigth) - 4 === brown &&
+      width * heigth - brown === yellow
+    ) {
+      return [width, heigth];
+    }
+  }
 }
 ```
 
