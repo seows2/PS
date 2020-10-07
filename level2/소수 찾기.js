@@ -26,32 +26,21 @@ numbers	return
 
 function solution(numbers) {
   const numberArr = [...numbers];
-  const getComb = (arr) => {
-    let flag = new Array(arr.length).fill(false);
-    const combs = [];
-
-    const combFuc = (depth) => {
-      if (depth === arr.length) {
-        const comb = arr.filter((_, index) => flag[index]);
-        combs.push(comb);
-
-        return;
+  const mergeNumbers = (arr, str) => {
+    if (arr.length > 0) {
+      for (let i = 0; i < arr.length; i++) {
+        const temp = [...arr];
+        temp.splice(i, 1);
+        mergeNumbers(temp, str + arr[i]);
       }
-
-      flag[depth] = true;
-      combFuc(depth + 1);
-
-      flag[depth] = false;
-      combFuc(depth + 1);
-    };
-
-    combFuc(0);
-
-    return combs;
+    }
+    if (str.length > 0) {
+      console.log("소수판별 ㄱ", +str);
+    }
   };
-  console.log(getComb(numberArr));
+  mergeNumbers(numberArr, "");
 }
 
-solution("12");
+solution("123");
 //1,2,3
 //1,2,3,12,13,23,21,31,32,123,132,213,231,312,321
