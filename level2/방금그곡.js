@@ -38,3 +38,57 @@ ABC	                [12:00,12:14,HELLO,C#DEFGAB, 13:00,13:05,WORLD,ABCDEF]	WORLD
 설명
 첫 번째 예시에서 HELLO는 길이가 7분이지만 12:00부터 12:14까지 재생되었으므로 실제로 CDEFGABCDEFGAB로 재생되었고, 이 중에 기억한 멜로디인 ABCDEFG가 들어있다.
 세 번째 예시에서 HELLO는 C#DEFGABC#DEFGAB로, WORLD는 ABCDE로 재생되었다. HELLO 안에 있는 ABC#은 기억한 멜로디인 ABC와 일치하지 않고, WORLD 안에 있는 ABC가 기억한 멜로디와 일치한다. */
+
+function solution(m, musicinfos) {
+    const makeMelodyArr = (melodies, time) => {
+        let score = []
+        for (let i = 0; i < melodies.length; i++) {
+            if(melodies[i+1]==="#"){
+                if(melodies[i]==="A")score.push("Q")
+                if(melodies[i]==="C")score.push("W")
+                if(melodies[i]==="D")score.push("R")
+                if(melodies[i]==="F")score.push("T")
+                if(melodies[i]==="G")score.push("Y")
+                i++
+            } else {
+                score.push(melodies[i])
+            }
+        }
+        if(time){
+            let temp2 = []
+            for (let j = 0; j < time; j++) {
+                let idx = j % score.length
+               temp2.push(score[idx])
+            }
+            return temp2.join("")
+        } 
+        return score.join("")
+        
+    }
+    let answers =[]
+    let idx = 1
+    const mm = makeMelodyArr([...m])
+    for (const musicinfo of musicinfos){
+        const temp = musicinfo.split(",")
+        const [startTime, endTime, title, melody] = temp
+        const st = Number(startTime.split(":")[0])*60+Number(startTime.split(":")[1])
+        const et = Number(endTime.split(":")[0])*60+Number(endTime.split(":")[1])
+        const songMelody = makeMelodyArr([...melody],et-st)
+        console.log(songMelody,mm);
+        if(songMelody.includes(mm)){
+            answers.push({time: et-st, title, idx})
+        }
+        idx++
+    }
+    if(answers.length !==0){
+        answers.sort((a,b) => b.time-a.time)
+        answers = answers.filter((el)=>el.time === answers[0].time)
+        answers.sort((a,b) => a.idx-b.idx)
+        return answers[0].title
+    } else {
+        return `(None)`
+    }
+     
+}
+console.log(solution("CC#BCC#BCC#BCC#B", ["03:00,03:30,asd,CC#B","03:00,03:25,qwfqwf,CC#B","03:00,03:30,fqeqw,CC#B","03:00,03:30,fqeqw,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"] ));
+

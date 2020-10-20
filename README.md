@@ -475,6 +475,7 @@ function solution(n, arr1, arr2) {
 - [수식 최대화](#수식-최대화) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67257)
 - [캐시](#캐시) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17680)
 - [카펫](#카펫) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42842)
+- [방금그곡](#방금그곡) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17683)
 
 <br>
 
@@ -1495,6 +1496,71 @@ function solution(brown, yellow) {
       return [width, heigth];
     }
   }
+}
+```
+
+<br><br>
+
+
+## 방금그곡
+
+**접근법**  
+musicinfos를 돌면서 정답이 될 수 있는 곡의 타이틀을 answers에 저장합니다. musicinfos를 나눠 곡의 시작시간, 끝난시간, 제목, 멜로디 등을 가져오고 시작 시간과 끝난시간을 Number로 바꾸어 멜로디와 함께 makeMelodyArr함수에 보내 시간에 따라 총 멜로디를 만듭니다 이 함수에서 #도 처리를 해주며 아예 다른 문자로 치환해줍니다. 그리고 배열을 전부 합쳐서 리턴해줍니다.   
+그 후 m을 makeMelodyArr에 보낸 mm (#을 치환시키기 위함)과 songMelody를 비교해 songMelody에 mm이 있다면 answers에 시간과 제목을 넣어줍니다. 그리고 시간 순으로 소트를 해 라디오에서 가장 오래 들려준 객체를 위로 올린다음 첫번째 배열의 title 반환, 만약 없다면 (None) 리턴   
+`(None)`을 리턴하면 문제가 틀린다. "(None)"이어야 하더라.
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(m, musicinfos) {
+    const makeMelodyArr = (melodies, time) => {
+        let score = []
+        for (let i = 0; i < melodies.length; i++) {
+            if(melodies[i+1]==="#"){
+                if(melodies[i]==="A")score.push("Q")
+                if(melodies[i]==="C")score.push("W")
+                if(melodies[i]==="D")score.push("R")
+                if(melodies[i]==="F")score.push("T")
+                if(melodies[i]==="G")score.push("Y")
+                i++
+            } else {
+                score.push(melodies[i])
+            }
+        }
+        if(time){
+            let temp2 = []
+            for (let j = 0; j < time; j++) {
+                let idx = j % score.length
+               temp2.push(score[idx])
+            }
+            return temp2.join("")
+        } 
+        return score.join("")
+        
+    }
+    let answers =[]
+    let idx = 1
+    const mm = makeMelodyArr([...m])
+    for (const musicinfo of musicinfos){
+        const temp = musicinfo.split(",")
+        const [startTime, endTime, title, melody] = temp
+        const st = Number(startTime.split(":")[0])*60+Number(startTime.split(":")[1])
+        const et = Number(endTime.split(":")[0])*60+Number(endTime.split(":")[1])
+        const songMelody = makeMelodyArr([...melody],et-st)
+        if(songMelody.includes(mm)){
+            answers.push({time: et-st, title, idx})
+        }
+        idx++
+    }
+    if(answers.length !==0){
+        answers.sort((a,b) => b.time-a.time)
+        return answers[0].title
+    } else {
+        return "(None)"
+    }
+     
 }
 ```
 
