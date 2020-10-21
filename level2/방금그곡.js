@@ -66,7 +66,6 @@ function solution(m, musicinfos) {
         
     }
     let answers =[]
-    let idx = 1
     const mm = makeMelodyArr([...m])
     for (const musicinfo of musicinfos){
         const temp = musicinfo.split(",")
@@ -76,17 +75,14 @@ function solution(m, musicinfos) {
         const songMelody = makeMelodyArr([...melody],et-st)
         console.log(songMelody,mm);
         if(songMelody.includes(mm)){
-            answers.push({time: et-st, title, idx})
+            answers.push({time: et-st, title})
         }
-        idx++
     }
     if(answers.length !==0){
         answers.sort((a,b) => b.time-a.time)
-        answers = answers.filter((el)=>el.time === answers[0].time)
-        answers.sort((a,b) => a.idx-b.idx)
         return answers[0].title
     } else {
-        return `(None)`
+        return "(None)"
     }
      
 }
