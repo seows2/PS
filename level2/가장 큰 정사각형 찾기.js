@@ -35,13 +35,11 @@ board	answer
 로 가장 큰 정사각형의 넓이는 4가 되므로 4를 return합니다. */
 
 function solution(board) {
-  console.log(board);
+  
 }
-console.log(
+
   solution([
-    [0, 1, 1, 1],
-    [1, 1, 1, 1],
-    [1, 1, 1, 1],
-    [0, 0, 1, 0],
+    [0,0,1,1],
+    [1,1,1,1]
   ])
-);
+
