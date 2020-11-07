@@ -35,11 +35,22 @@ board	answer
 로 가장 큰 정사각형의 넓이는 4가 되므로 4를 return합니다. */
 
 function solution(board) {
-  
+  const x = board[0].length
+  const y = board.length
+  let max = 0
+
+  if(x === 1 && y === 1) return 1
+
+  for (let i = 1; i < y; i++) {
+    for (let j = 1; j < x; j++) {
+      const min = Math.min(board[i-1][j], board[i][j-1], board[i-1][j-1])
+      
+    }
+    
+  }
 }
 
   solution([
     [0,0,1,1],
     [1,1,1,1]
   ])
-
