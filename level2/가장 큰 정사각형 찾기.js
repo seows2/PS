@@ -37,20 +37,23 @@ board	answer
 function solution(board) {
   const x = board[0].length
   const y = board.length
-  let max = 0
+  let ans = 0
 
-  if(x === 1 && y === 1) return 1
+  if(x < 2 || y < 2) return 1
 
   for (let i = 1; i < y; i++) {
     for (let j = 1; j < x; j++) {
-      const min = Math.min(board[i-1][j], board[i][j-1], board[i-1][j-1])
+      if(board[i][j] > 0){
+        const min = Math.min(board[i-1][j], board[i][j-1], board[i-1][j-1])
+        board[i][j] = min + 1
+      }
       
+      if(ans < board[i][j]){
+        ans = board[i][j]
+      }
     }
-    
   }
+  return Math.pow(ans,2)
 }
 
-  solution([
-    [0,0,1,1],
-    [1,1,1,1]
-  ])
+  solution([[0,0,1,1],[1,1,1,1]])
