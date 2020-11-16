@@ -26,7 +26,7 @@
 - [자연수 뒤집어 배열로 만들기](#자연수-뒤집어-배열로-만들기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12932)
 - [가운데 글자 가져오기](#가운데-글자-가져오기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12903)
 - [같은 숫자는 싫어](#같은-숫자는-싫어) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12906)
-- [[카카오 인턴] 키패드 누르기](#[카카오-인턴]-키패드-누르기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67256)
+- [키패드 누르기](#키패드-누르기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/67256)
 
 <br>
 
@@ -315,7 +315,7 @@ function solution(arr) {
 
 <br><br>
 
-## [카카오 인턴] 키패드 누르기
+## 키패드 누르기
 
 **접근법**  
 요즘 책을 안읽어서 그런지 문제가 무슨 소리인지를 몰라서 약간 헤맨 문제. 카카오는 문제가 너무 길고 어렵다 ㅠㅠㅠ 더 연습해야해..!!
@@ -476,6 +476,7 @@ function solution(n, arr1, arr2) {
 - [캐시](#캐시) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17680)
 - [카펫](#카펫) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42842)
 - [방금그곡](#방금그곡) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17683)
+- [땅따먹기](#땅따먹기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12913)
 
 <br>
 
@@ -1561,6 +1562,34 @@ function solution(m, musicinfos) {
         return "(None)"
     }
      
+}
+```
+
+<br><br>
+
+## 땅따먹기
+
+**접근법**  
+위에서부터 각 행에서의 최대값을 구한다. land[1]의 값들을 land[0]의 값들과 대조해 가장 큰 값을 저장하고 아래로 내려가면서 그 값을 활용하는 전형적인 dp문제.   
+연속해서 같은 열은 밟을 수 없다는 조건을 유의해야합니다!
+
+<br>
+
+> **나의 풀이**
+
+```javascript
+function solution(land) {
+  land.forEach((emts, idxs) => emts.forEach((emt, idx) => {
+      if(idxs === 0) return
+      const n = idxs - 1
+      let max = 0
+      for (let i = 0; i < emts.length; i++) {
+          if(i === idx) continue
+          max = Math.max(max, emt+land[n][i])
+      }
+      land[idxs][idx] = max
+  }));
+  return Math.max.apply(null, land[land.length-1])
 }
 ```
 
