@@ -1601,6 +1601,8 @@ function solution(land) {
 
 - [자물쇠와 열쇠](#자물쇠와-열쇠)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60059)
 - [불량 사용자](#불량-사용자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64064)
+- [네트워크](#네트워크)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/43162)
+
 
 <br>
 
@@ -1760,5 +1762,39 @@ function solution(user_id, banned_id) {
   search(0, []);
 
   return answer;
+}
+```
+
+<br>
+
+## 네트워크
+
+**접근법**  
+전형적인 DFS 문제 각 정점별 visited배열을 선언 배열을 돌면서 방문하지 않은 지역을 찾아 탐색을 해주고 그 안에서 다시 for문을 돌려서 연결된 지점을 찾고 방문하지 않은 지역을 찾아 방문을 해준다. 더 이상 연결된 지점이 없다면 독립된 섬일 것이며 초기 dfs문을 빠져나갈 것이므로 아래에 ans++을 해준다.
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(n, computers) {
+let ans = 0
+let visited = Array(n).fill(false)
+  const dfs = (idx) => {
+      visited[idx]=true
+      for (let i = 0; i < computers.length; i++) {
+          if(computers[idx][i] === 1 && !visited[i]){
+              dfs(i)
+          }
+      }
+  }
+  computers.forEach((_, idx) => {
+    if(!visited[idx]){
+        dfs(idx)
+        ans++
+    }
+  });
+  
+  return ans
 }
 ```
