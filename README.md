@@ -1796,3 +1796,79 @@ let visited = Array(n).fill(false)
   return ans
 }
 ```
+
+<br>
+
+## 단어 변환
+
+**접근법**  
+dfs를 이용한 접근을 했다. 전체적으로 hit을 .it, h.t, hi. 이렇게 변환하여 가능한 변환 단어 리스트를 구해서 배열에 쌓아놓고 하나하나 접근하며 target 단어가 나올때 까지 돌린다.
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(begin, target, words) {
+    if(!words.includes(target)) return 0
+
+    let visited = []
+    let tempWord = begin
+    let min = 999999999
+    let ans = 0
+    let answer
+
+
+    const possibleList = (reg) => {
+        let stack = []
+        const exp = new RegExp(`^${reg}$`)
+       for (const word of words) {
+           if(exp.test(word))stack.push(word)
+       }
+       console.log(reg, stack);
+       return stack
+    }
+
+    const dfs = (word) => {
+        //console.log(visited);
+        let tempWord = word
+        if(word === target){
+            min = ans < min ? ans : min
+            answer = min
+            return
+        }
+        for (let i = 0; i < word.length; i++) {
+            let changeWord = [...tempWord]
+            changeWord.splice(i, 1, ".")
+            let stack = possibleList(changeWord.join(""))
+            for (const word of stack) {
+                if(visited.includes(word))continue
+                ans++
+                visited.push(word)
+                dfs(word)
+                visited.pop(word)
+                ans--
+            }
+            
+        }
+    }
+    visited.push(begin)
+
+    for (let i = 0; i < tempWord.length; i++) {
+        let changeWord = [...tempWord]
+        changeWord.splice(i, 1, ".")
+        let stack = possibleList(changeWord.join(""))
+        for (const word of stack) {
+            ans++
+            visited.push(word)
+            dfs(word)
+            visited.pop(word)
+            ans--
+        }
+        
+    }
+    //console.log(answer);
+    return answer
+
+}
+```

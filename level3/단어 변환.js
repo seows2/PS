@@ -31,14 +31,65 @@ target인 cog는 words 안에 없기 때문에 변환할 수 없습니다.
 function solution(begin, target, words) {
     if(!words.includes(target)) return 0
 
+    let visited = []
+    let tempWord = begin
+    let min = 999999999
+    let ans = 0
+    let answer
+
+
     const possibleList = (reg) => {
         let stack = []
         const exp = new RegExp(`^${reg}$`)
        for (const word of words) {
            if(exp.test(word))stack.push(word)
        }
+       console.log(reg, stack);
        return stack
     }
+
+    const dfs = (word) => {
+        //console.log(visited);
+        let tempWord = word
+        if(word === target){
+            min = ans < min ? ans : min
+            answer = min
+            return
+        }
+        for (let i = 0; i < word.length; i++) {
+            let changeWord = [...tempWord]
+            changeWord.splice(i, 1, ".")
+            let stack = possibleList(changeWord.join(""))
+            for (const word of stack) {
+                if(visited.includes(word))continue
+                ans++
+                visited.push(word)
+                dfs(word)
+                visited.pop(word)
+                ans--
+            }
+            
+        }
+    }
+    visited.push(begin)
+
+    for (let i = 0; i < tempWord.length; i++) {
+        let changeWord = [...tempWord]
+        changeWord.splice(i, 1, ".")
+        let stack = possibleList(changeWord.join(""))
+        for (const word of stack) {
+            ans++
+            visited.push(word)
+            dfs(word)
+            visited.pop(word)
+            ans--
+        }
+        
+    }
+
+
+    //console.log(answer);
+    return answer
 
 }
 
