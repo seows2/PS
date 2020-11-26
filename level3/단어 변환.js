@@ -49,9 +49,10 @@ function solution(begin, target, words) {
     }
 
     const dfs = (word) => {
-        //console.log(visited);
         let tempWord = word
+        //console.log(word, visited);
         if(word === target){
+            console.log( ans);
             min = ans < min ? ans : min
             answer = min
             return

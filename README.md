@@ -477,6 +477,7 @@ function solution(n, arr1, arr2) {
 - [카펫](#카펫) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/42842)
 - [방금그곡](#방금그곡) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/17683)
 - [땅따먹기](#땅따먹기) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12913)
+- [조이스틱](#조이스틱) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/12913) [블로그](https://blog.naver.com/seows2/222154606678)
 
 <br>
 
@@ -1593,13 +1594,88 @@ function solution(land) {
 
 <br><br>
 
+## 조이스틱
+
+**접근법**
+위 아래 조작, 오른쪽 왼쪽 조작을 각각으로 생각하고 따로 구했습니다.   
+getUD()와 getLR()를 함수를 이용해서 현재 위치(idx, curPos)에 따른 상대적인 위치를 구해 조작의 최소갯수를 구합니다!
+[블로그](https://blog.naver.com/seows2/222154606678) 참조!
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(name) {
+    const nameArr = [...name]
+
+    const getUD = (name_alpah) => {
+        const alpha = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"]
+        const idx = alpha.indexOf(name_alpah)
+        const min = Math.min(idx, alpha.length- idx)
+        return min
+    }
+
+    const getLR = () => {
+        let tempArr = nameArr.slice()
+        tempArr.splice(0, 1, "A")
+        let left = 0
+        let right = 0
+        let curPos = 0
+        let count = 0
+        let fin = 0
+        let LR = 0
+
+        tempArr.forEach(e =>{
+            if(e !== "A") fin++
+        })
+        while (fin !== 0) {
+            fin--
+            count = 0
+            left = curPos
+            right = curPos
+            
+            while (true) {
+                if(--left < 0) left += nameArr.length
+                if(++right > nameArr.length-1) right -= nameArr.length
+                count++
+                if(tempArr[right] !== "A"){
+                    curPos=right
+                    tempArr.splice(curPos, 1, "A")
+                    break
+                }
+                if(tempArr[left] !== "A"){
+                    curPos=left
+                    tempArr.splice(curPos, 1, "A")
+                    break
+                }
+                
+            }
+            LR+=count
+        }
+       
+        return LR
+    }
+    let UD = 0
+    for (const name_alpah of nameArr) {
+        UD += getUD(name_alpah)
+    }
+    const LR = getLR()
+
+    return UD+LR
+}
+```
+
+<br><br>
+
 # level3
 
 ## 목차
 
-- [자물쇠와 열쇠](#자물쇠와-열쇠)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60059)
-- [불량 사용자](#불량-사용자)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64064)
-- [네트워크](#네트워크)[(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/43162)
+- [자물쇠와 열쇠](#자물쇠와-열쇠) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/60059)
+- [불량 사용자](#불량-사용자) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/64064)
+- [네트워크](#네트워크) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/43162)
+- [단어 변환](#단어-변환) [(문제링크)](https://programmers.co.kr/learn/courses/30/lessons/43163) [(블로그)](https://programmers.co.kr/learn/courses/30/lessons/43163)
 
 
 <br>
@@ -1802,7 +1878,7 @@ let visited = Array(n).fill(false)
 ## 단어 변환
 
 **접근법**  
-dfs를 이용한 접근을 했다. 전체적으로 hit을 .it, h.t, hi. 이렇게 변환하여 가능한 변환 단어 리스트를 구해서 배열에 쌓아놓고 하나하나 접근하며 target 단어가 나올때 까지 돌린다.
+dfs를 이용한 접근을 했다. 전체적으로 hit을 .it, h.t, hi. 이렇게 변환하여 가능한 변환 단어 리스트를 구해서 배열에 쌓아놓고 하나하나 접근하며 target 단어가 나올때 까지 돌린다. [블로그](https://blog.naver.com/seows2/222154644699) 참조!
 
 <br>
 
