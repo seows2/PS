@@ -1948,3 +1948,39 @@ function solution(begin, target, words) {
 
 }
 ```
+
+<br>
+
+## N으로 표현
+
+**접근법**  
+[블로그](https://blog.naver.com/seows2/222161573335) 참조!
+
+<br>
+
+> **나의 풀이**
+
+```js
+function solution(N, number) {
+    const setArr = new Array(8).fill().map(() => new Set())
+   for (let i = 0; i < 8; i++) {
+       setArr[i].add(Number(N.toString().repeat(i+1)))
+       for (let j = 0; j < i; j++) {
+          for (const a of setArr[j]) {
+              for (const b of setArr[i-j-1]) {
+                  console.log(a,b);
+                  setArr[i].add(a+b)
+                  setArr[i].add(a-b)
+                  setArr[i].add(a*b)
+                  setArr[i].add(a/b)               
+              }
+          }
+       }
+       if(setArr[i].has(number)){
+           return i+1
+       }
+       console.log(setArr[i]);
+    }
+   return -1
+}
+```

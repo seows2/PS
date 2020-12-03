@@ -26,12 +26,13 @@ N	number	return
 
 
 function solution(N, number) {
-    const setArr = new Array(8).fill().map(() => new Set())
-   for (let i = 0; i < 8; i++) {
-       setArr[i].add(Number(N.toString().repeat(i+1)))
-       for (let j = 0; j < i; j++) {
+    const setArr = new Array(9).fill().map(() => new Set())
+   for (let i = 1; i < 9; i++) {
+       setArr[i].add(Number(N.toString().repeat(i)))
+       for (let j = 1; j < i; j++) {
           for (const a of setArr[j]) {
-              for (const b of setArr[i-j-1]) {
+              for (const b of setArr[i-j]) {
+                  //console.log(a,b);
                   setArr[i].add(a+b)
                   setArr[i].add(a-b)
                   setArr[i].add(a*b)
@@ -40,8 +41,9 @@ function solution(N, number) {
           }
        }
        if(setArr[i].has(number)){
-           return i+1
+           return i
        }
+       //console.log(setArr[i]);
     }
    return -1
 }
