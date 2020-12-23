@@ -8,6 +8,27 @@ function solution(n) {
                 return false
            }
        }
+       const arrLength = arr.length
+       let tempN = n
+       let tempI = i
+       //console.log("시작", tempN, tempI);
+       while (tempN > 0 && tempI > 0) {
+           tempN--
+           tempI--
+           if(arr[tempN][tempI] === 1){
+               return false
+           }
+       }
+       tempN = n
+       tempI = i
+       //console.log("시작", tempN, tempI);
+       while (tempN > 0 && tempI !== arr.length-1) {
+        tempN--
+        tempI++
+        if(arr[tempN][tempI] === 1){
+            return false
+        }
+    }
        return true
    }
 
@@ -20,12 +41,12 @@ function solution(n) {
 
        for (let i = 0; i < arr.length; i++) {
            arr[n][i] = 1
-           //console.log(arr);
            if(isPossible(arr, n, i)) dfs(arr, n+1)
            arr[n][i] = 0
        }
    }
    dfs(arr, 0)
+   console.log(count);
 }
 
-solution(4)
+solution(8)
