@@ -1,43 +1,28 @@
 function solution(n, edge) {
-    let answer = []
-    let visited = []
-    let edges = JSON.parse(JSON.stringify(edge));
-    edge.forEach(e => edges.push(e.reverse()));
-    console.log(edges);
-    
-    const dfs = (temp, currentPlace, dest) => {
-        if(edges[currentPlace][1] === dest){
-            temp.push(dest)
-            const temp1 = temp.slice();
-            answer.push(temp1);
-            return
-        }
+  const graph = Array.from({length: n}, () => [])
 
-        for (let i = 0; i < edges.length; i++) {
-            if (!visited[edges[i][0]] && edges[currentPlace][1] === edges[i][0] && !(edges[currentPlace][1] === edges[i][0] && edges[currentPlace][0] === edges[i][1])) {
-                visited[edges[i][0]] = true;
-                temp.push(edges[i][0]);
-                console.log(dest, temp, visited, currentPlace, i);
-                dfs(temp, i, dest);
-                temp.pop();
-                visited[edges[i][0]] = false;
-              }
-        }
-    }
+  edge.forEach(([a,b]) => {
+    graph[a-1].push(b-1)
+    graph[b-1].push(a-1)
+  });
+  //console.log(graph);
 
-    for (let dest = 2; dest < n+1; dest++) {
-        for (let i = 0; i < edges.length; i++) {
-            let temp = []
-            if(edges[i][0] !== 1) continue
-            visited[edges[i][0]]= true
-            temp.push(edges[i][0])
-            dfs(temp, i, dest)
-            temp.pop()
-            visited[edges[i][0]]= false
-        }
-        
-    }
-    console.log(answer);
+  const queue = [[0,0]]
+  const visited = [true]
+  const depNum = []
+
+  while (queue.length) {
+    const [cur, dep] = queue.shift()
+    //console.log(cur, dep, queue)
+    depNum[dep] = depNum[dep] ? depNum[dep]+1 : 1
+    graph[cur].forEach(e => {
+      if(!visited[e]){
+        visited[e] = true
+        queue.push([e, dep+1])
+      }
+    })
+  }
+  return depNum[depNum.length-1]
 }
 
 solution(6,	[[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]])
@@ -53,5 +38,4 @@ solution(6,	[[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]])
   ] 
    console.log(dest, temp, visited, currentPlace, i);
 
-   (edges[currentPlace][1] === edges[i][0] && edges[currentPlace][0] === edges[i][1]
   */
