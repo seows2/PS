@@ -22,9 +22,20 @@ function solution(participant, completion) {
     })
   );
 }
-console.log(
-  solution(
-    ["marina", "josipa", "nikola", "vinko", "filipa"],
-    ["josipa", "filipa", "marina", "nikola"]
-  )
+
+function solution2(participant, completion) {
+  participant.sort();
+  completion.sort();
+  for (let i = 0; i < completion.length; i++) {
+    if (participant[i] !== completion[i]) return participant[i];
+  }
+  return participant[participant.length - 1];
+}
+solution2(
+  ["marina", "josipa", "nikola", "vinko", "filipa"],
+  ["josipa", "filipa", "marina", "nikola"]
+);
+solution(
+  ["marina", "josipa", "nikola", "vinko", "filipa"],
+  ["josipa", "filipa", "marina", "nikola"]
 );
