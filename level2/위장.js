@@ -51,10 +51,26 @@ function solution(clothes) {
   }
   return ans - 1;
 }
-console.log(
+function solution2(clothes) {
+  const clotheObj = {};
+  let answer = 1;
+  for (const clothe of clothes) {
+    clotheObj[clothe[1]] = clotheObj[clothe[1]] ? clotheObj[clothe[1]] + 1 : 2;
+  }
+  Object.entries(clotheObj).forEach(([_, value]) => {
+    answer *= value;
+  });
+  return answer - 1;
+}
+/* console.log(
   solution([
     ["yellow_hat", "headgear"],
     ["blue_sunglasses", "eyewear"],
     ["green_turban", "headgear"],
   ])
-);
+); */
+solution2([
+  ["yellow_hat", "headgear"],
+  ["blue_sunglasses", "eyewear"],
+  ["green_turban", "headgear"],
+]);
