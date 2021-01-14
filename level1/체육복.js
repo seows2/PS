@@ -54,4 +54,28 @@ function solution(n, lost, reserve) {
     }).length
   );
 }
-console.log(solution(10, [2, 4], [1, 3, 5]));
+
+function solution2(n, losts, reserves) {
+  reserves.forEach((reserve, index) => {
+    if (losts.includes(reserve)) {
+      const lostIndex = losts.indexOf(reserve);
+      losts.splice(lostIndex, 1);
+      reserves.splice(index, 1);
+    }
+  });
+
+  const result = losts.filter((lost) => {
+    const reserveIndex = reserves.findIndex(
+      (reserve) => Math.abs(lost - reserve) <= 1
+    );
+    if (reserveIndex !== -1) {
+      reserves.splice(reserveIndex, 1);
+    } else {
+      return true;
+    }
+  });
+
+  return n - result.length;
+}
+solution2(10, [2, 4], [1, 3, 5]);
+//console.log(solution(10, [2, 4], [1, 3, 5]));
