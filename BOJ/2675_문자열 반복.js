@@ -1,6 +1,6 @@
 /*
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().split('\n');
+const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
 */
 const input = ["2", "3 ABC", "5 /HTP"];
 
