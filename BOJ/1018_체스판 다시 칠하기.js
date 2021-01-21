@@ -16,6 +16,7 @@ const input = [
   "WWWWWWWWWWBWB",
   "WWWWWWWWWWBWB",
 ];
+
 const num = input
   .shift()
   .split(" ")
