@@ -2,26 +2,49 @@ function solution(info, query) {
   const table = [];
   let answer = [];
 
-  const getFilterApplicantLength = (lang, job, carrer, favorite, score) => {
-    let temp = table.slice();
-    if (lang !== "-") temp = temp.filter((e) => e[0] === lang);
-    if (job !== "-") temp = temp.filter((e) => e[1] === job);
-    if (carrer !== "-") temp = temp.filter((e) => e[2] === carrer);
-    if (favorite !== "-") temp = temp.filter((e) => e[3] === favorite);
-    if (score !== "-") temp = temp.filter((e) => e[4] >= Number(score));
-    return temp.length;
+  const getFilterApplicantLength = (
+    table,
+    lang,
+    job,
+    carrer,
+    favorite,
+    score
+  ) => {
+    if (lang !== "-") table = table.filter((e) => e[0] === lang);
+    if (job !== "-") table = table.filter((e) => e[1] === job);
+    if (carrer !== "-") table = table.filter((e) => e[2] === carrer);
+    if (favorite !== "-") table = table.filter((e) => e[3] === favorite);
+    if (score !== "-") table = table.filter((e) => e[4] >= Number(score));
+    return table.length;
   };
 
   info.forEach((e) => table.push(e.split(" ")));
   query.forEach((e) => {
     const [lang, job, carrer, dump] = e.split(" and ");
     const [favorite, score] = dump.split(" ");
-    const result = getFilterApplicantLength(lang, job, carrer, favorite, score);
+    const result = getFilterApplicantLength(
+      table,
+      lang,
+      job,
+      carrer,
+      favorite,
+      score
+    );
 
     answer.push(result);
   });
   console.log(answer);
   return answer;
+}
+
+function solution2(info, query) {
+  const javaTable = [];
+  const pythonTable = [];
+  const cppTable = [];
+
+  info.forEach((e) => {
+    const [language, position, carrer, fav, score] = e.split(" ");
+  });
 }
 
 solution(
