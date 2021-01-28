@@ -1,4 +1,4 @@
-function solution(info, query) {
+function solution2(info, query) {
   const table = [];
   let answer = [];
 
@@ -37,14 +37,8 @@ function solution(info, query) {
   return answer;
 }
 
-function solution2(info, query) {
-  const javaTable = [];
-  const pythonTable = [];
-  const cppTable = [];
-
-  info.forEach((e) => {
-    const [language, position, carrer, fav, score] = e.split(" ");
-  });
+function solution(info, query) {
+  const obj = {};
 }
 
 solution(
