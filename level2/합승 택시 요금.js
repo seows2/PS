@@ -7,47 +7,44 @@ function solution(n, s, a, b, fares) {
     graph[b - 1].push([a - 1, w]);
   });
 
-  for (let i = 1; i <= n; i++) {
-    let visited = new Array(n).fill(false);
-    let minWeight = new Array(n).fill(Infinity);
-    let queue = [...graph[i - 1]];
-    visited[i - 1] = true;
-    minWeight[i - 1] = 0;
+  for (let i = 0; i < n; i++) {
+    const dist = new Array(n).fill(Number.MAX_SAFE_INTEGER);
+    const visited = new Array(n).fill(false);
+    const queue = [];
+    queue.push(i);
+    dist[i] = 0;
 
     while (queue.length) {
-      const [cur, totalWeight] = queue.shift();
-      visited[cur] = true;
-      if (!minWeight[cur]) {
-        minWeight[cur] = totalWeight;
-      } else {
-        minWeight[cur] =
-          minWeight[cur] >= totalWeight ? totalWeight : minWeight[cur];
-      }
+      const curr = queue.sort((a, b) => dist[a] - dist[b]).shift();
+      if (visited[curr]) continue;
+      visited[curr] = true;
 
-      graph[cur].forEach(([place, eWeight]) => {
-        if (!visited[place]) {
-          queue.push([place, totalWeight + eWeight]);
+      graph[curr].forEach(([next, w]) => {
+        if (dist[next] > dist[curr] + w) {
+          dist[next] = dist[curr] + w;
+          queue.push(next);
         }
       });
     }
-    map.push(minWeight);
+    map.push(dist);
   }
   let answer = Infinity;
   console.log(map);
-
   for (let i = 0; i < n; i++) {
     const sum = map[s - 1][i] + map[i][a - 1] + map[i][b - 1];
-    console.log(sum, answer);
     answer = answer > sum ? sum : answer;
   }
   console.log(answer);
   return answer;
 }
 
-solution(7, 3, 4, 1, [
-  [5, 7, 9],
-  [4, 6, 4],
-  [3, 6, 1],
-  [3, 2, 3],
-  [2, 1, 6],
+solution(6, 4, 5, 6, [
+  [2, 6, 6],
+  [6, 3, 7],
+  [4, 6, 7],
+  [6, 5, 11],
+  [2, 5, 12],
+  [5, 3, 20],
+  [2, 4, 8],
+  [4, 3, 9],
 ]);
