@@ -8,7 +8,7 @@ function solution(n, s, a, b, fares) {
   });
 
   for (let i = 0; i < n; i++) {
-    const dist = new Array(n).fill(Number.MAX_SAFE_INTEGER);
+    const dist = new Array(n).fill(Infinity);
     const visited = new Array(n).fill(false);
     const queue = [];
     queue.push(i);
@@ -20,8 +20,9 @@ function solution(n, s, a, b, fares) {
       visited[curr] = true;
 
       graph[curr].forEach(([next, w]) => {
-        if (dist[next] > dist[curr] + w) {
-          dist[next] = dist[curr] + w;
+        const temp = dist[curr] + w;
+        if (dist[next] > temp) {
+          dist[next] = temp;
           queue.push(next);
         }
       });
@@ -29,22 +30,23 @@ function solution(n, s, a, b, fares) {
     map.push(dist);
   }
   let answer = Infinity;
-  console.log(map);
+
   for (let i = 0; i < n; i++) {
     const sum = map[s - 1][i] + map[i][a - 1] + map[i][b - 1];
-    answer = answer > sum ? sum : answer;
+    if (answer > sum) answer = sum;
   }
-  console.log(answer);
+  //console.log(answer);
   return answer;
 }
 
-solution(6, 4, 5, 6, [
-  [2, 6, 6],
-  [6, 3, 7],
-  [4, 6, 7],
-  [6, 5, 11],
-  [2, 5, 12],
-  [5, 3, 20],
-  [2, 4, 8],
-  [4, 3, 9],
+solution(6, 4, 6, 2, [
+  [4, 1, 10],
+  [3, 5, 24],
+  [5, 6, 2],
+  [3, 1, 41],
+  [5, 1, 24],
+  [4, 6, 50],
+  [2, 4, 66],
+  [2, 3, 22],
+  [1, 6, 25],
 ]);
