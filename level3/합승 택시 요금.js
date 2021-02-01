@@ -29,17 +29,51 @@ function solution(n, s, a, b, fares) {
     }
     map.push(dist);
   }
+  console.log(map);
   let answer = Infinity;
 
   for (let i = 0; i < n; i++) {
     const sum = map[s - 1][i] + map[i][a - 1] + map[i][b - 1];
     if (answer > sum) answer = sum;
   }
-  //console.log(answer);
+  console.log(answer);
   return answer;
 }
 
-solution(6, 4, 6, 2, [
+function solution2(n, s, a, b, fares) {
+  const FW = (graph) => {
+    const graphL = graph.length;
+    for (let i = 0; i < graphL; i++) {
+      for (let j = 0; j < graphL; j++) {
+        for (let k = 0; k < graphL; k++) {
+          if (graph[j][k] > graph[j][i] + graph[i][k]) {
+            graph[j][k] = graph[j][i] + graph[i][k];
+          }
+        }
+      }
+    }
+  };
+
+  const graph = Array.from({ length: n }, () => new Array(n).fill(Infinity));
+  fares.forEach(([s, e, w]) => {
+    graph[s - 1][e - 1] = w;
+    graph[e - 1][s - 1] = w;
+  });
+  graph.forEach((_, i) => {
+    graph[i][i] = 0;
+  });
+  FW(graph);
+  let answer = Infinity;
+
+  for (let i = 0; i < n; i++) {
+    const sum = graph[s - 1][i] + graph[i][a - 1] + graph[i][b - 1];
+    if (answer > sum) answer = sum;
+  }
+  console.log(answer);
+  return answer;
+}
+
+solution2(6, 4, 6, 2, [
   [4, 1, 10],
   [3, 5, 24],
   [5, 6, 2],
