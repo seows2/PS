@@ -39,6 +39,69 @@ function solution2(info, query) {
 
 function solution(info, query) {
   const obj = {};
+  const answer = [];
+  const infoLength = info.length;
+  const queryLength = query.length;
+  let flag = true;
+  const pushObj = (str, score) => {
+    if (obj[str]) obj[str].push(score);
+    else obj[str] = [score];
+  };
+  const oneDash = (i, temp, score) => {
+    temp.splice(i, 1, "-");
+    pushObj(temp.join(""), score);
+  };
+  const oneWord = (i, temp, arr, score) => {
+    temp.splice(i, 1, arr[i]);
+    pushObj(temp.join(""), score);
+  };
+  const twoDash = (j, temp, score, arr) => {
+    temp.splice(j, 1, "-");
+    if (!flag) temp.splice(j - 1, 1, arr[j - 1]);
+    flag = false;
+    pushObj(temp.join(""), score);
+  };
+  for (let i = 0; i < infoLength; i++) {
+    const arr = info[i].split(" ");
+    const score = Number(arr.pop());
+    const str = arr.join("");
+    pushObj(str, score);
+    pushObj("----", score);
+    for (let i = 0; i < 4; i++) {
+      const temp = arr.slice();
+      flag = true;
+      oneDash(i, temp, score);
+      oneWord(i, ["-", "-", "-", "-"], arr, score);
+      for (let j = i + 1; j < 4; j++) {
+        twoDash(j, temp, score, arr, flag);
+      }
+    }
+  }
+  Object.values(obj).forEach((e) => {
+    e.sort((a, b) => a - b);
+  });
+
+  const lowerBound = (arr, value) => {
+    const arrL = arr.length;
+    let low = 0;
+    let high = arr.length;
+    while (low < high) {
+      const mid = Math.floor(low + (high - low) / 2);
+      if (value <= arr[mid]) high = mid;
+      else low = mid + 1;
+    }
+    return arrL - low;
+  };
+  for (let j = 0; j < queryLength; j++) {
+    const [lang, job, carrer, dump] = query[j].split(" and ");
+    const [food, score] = dump.split(" ");
+    const str = lang + job + carrer + food;
+    let ans = 0;
+    if (obj[str]) ans = lowerBound(obj[str], score);
+    answer.push(ans);
+  }
+
+  return answer;
 }
 
 solution(
