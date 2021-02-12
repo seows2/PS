@@ -22,40 +22,45 @@ function solution(play_time, adv_time, logs) {
     return `${fixTwo(hour)}:${fixTwo(min)}:${fixTwo(sec)}`;
   };
 
-  const getAnswerSec = (playSec, advSec) => {
-    let maxSum = 0;
+  const getAnswerSec = (arr, playSec, advSec) => {
+    let maxViewer = 0;
     let result = 0;
+    for (let i = 1; i < playSec; i++) {
+      arr[i] += arr[i - 1];
+    }
 
     for (let i = 0; i < advSec; i++) {
-      maxSum += arr[i];
+      maxViewer += arr[i];
     }
-    let sum = maxSum;
-
+    let viewer = maxViewer;
     for (let i = advSec; i < playSec; i++) {
-      sum += arr[i] - arr[i - advSec];
-      if (maxSum < sum) {
-        maxSum = sum;
+      viewer += arr[i] - arr[i - advSec];
+      if (maxViewer < viewer) {
+        maxViewer = viewer;
         result = i - advSec + 1;
       }
     }
+
     return result;
   };
   if (play_time === adv_time) return "00:00:00";
-  let arr = new Array(360000).fill(0);
-  const logL = logs.length;
-  for (let j = 0; j < logL; j++) {
-    const [startLog, endLog] = logs[j].split("-");
+  const playSec = stringToSecond(play_time);
+  const advSec = stringToSecond(adv_time);
+
+  let arr = new Array(playSec + 1).fill(0);
+
+  logs.forEach((log) => {
+    const [startLog, endLog] = log.split("-");
     const start = stringToSecond(startLog);
     const end = stringToSecond(endLog);
 
-    for (let i = start; i < end; i++) {
-      arr[i]++;
-    }
-  }
-  const playSec = stringToSecond(play_time);
-  const advSec = stringToSecond(adv_time);
-  const result = getAnswerSec(playSec, advSec);
+    arr[start]++;
+    arr[end]--;
+  });
+
+  const result = getAnswerSec(arr, playSec, advSec);
   const answer = secondToString(result);
+  console.log(answer);
   return answer;
 }
 
