@@ -25,22 +25,45 @@ numbers	return
 */
 
 function solution(numbers) {
-  const numberArr = [...numbers];
-  const mergeNumbers = (arr, str) => {
-    if (arr.length > 0) {
-      for (let i = 0; i < arr.length; i++) {
-        const temp = [...arr];
-        temp.splice(i, 1);
-        mergeNumbers(temp, str + arr[i]);
-      }
+  function getPermutations(arr, selectNumber) {
+    const results = [];
+    if (selectNumber === 1) return arr.map((value) => [value]);
+    arr.forEach((fixed, index, origin) => {
+      const rest = [...origin.slice(0, index), ...origin.slice(index + 1)];
+      const permutations = getPermutations(rest, selectNumber - 1);
+      const attached = permutations.map((permutation) => [
+        fixed,
+        ...permutation,
+      ]);
+      results.push(...attached);
+    });
+    return results;
+  }
+  const isPrime = (num) => {
+    if (num <= 1) return false;
+    if (num % 2 === 0) return num === 2 ? true : false;
+    for (let i = 3; i <= Math.sqrt(num); i += 2) {
+      if (num % i === 0) return false;
     }
-    if (str.length > 0) {
-      console.log("소수판별 ㄱ", +str);
-    }
+    return true;
   };
-  mergeNumbers(numberArr, "");
+  let numArr = [...numbers];
+  let answer = 0;
+  const set = new Set();
+  for (let i = 1; i <= numArr.length; i++) {
+    const result = getPermutations(numArr, i);
+    result
+      .map((e) => Number(e.join("")))
+      .forEach((e) => {
+        set.add(e);
+      });
+  }
+  set.forEach((e) => {
+    if (isPrime(e)) answer++;
+  });
+  return answer;
 }
 
-solution("123");
+solution("011");
 //1,2,3
 //1,2,3,12,13,23,21,31,32,123,132,213,231,312,321
