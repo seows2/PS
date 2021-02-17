@@ -3,15 +3,15 @@ const fs = require('fs');
 const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
 */
 
-const input = "10";
+const input = "571";
 
 function solution(input) {
   let dp = new Array(input + 1).fill(0);
-  dp[0] = 0;
-  dp[1] = 1;
+  dp[1] = 0;
   dp[2] = 1;
+  dp[3] = 1;
 
-  for (let i = 3; i < input; i++) {
+  for (let i = 3; i <= input; i++) {
     let three = Infinity;
     let two = Infinity;
     let basic = Infinity;
@@ -23,10 +23,10 @@ function solution(input) {
     }
     basic = 1 + dp[i - 1];
     dp[i] = Math.min(three, two, basic);
-    console.log(i, three, two, basic, dp[i]);
+    //console.log(i, three, two, basic, dp[i]);
   }
-  console.log(dp);
-  console.log(dp[input - 1]);
+  //console.log(dp);
+  console.log(dp[input]);
 }
 
 solution(Number(input));
