@@ -1,9 +1,7 @@
-/*
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
-*/
+const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n').map(e=> Number(e));
 
-const input = [6,6,10,13,9,8,1];
+//const input = [6,100,100,1,1,100,100];
 const n = input.shift()
 
 function solution(n,input) {
@@ -14,7 +12,8 @@ function solution(n,input) {
   for (let i = 3; i < n; i++) {
     dp[i] = Math.max(dp[i-2]+input[i], dp[i-3]+input[i-1]+input[i],dp[i-1])
     }
-  console.log(Math.max(...dp));
+  console.log(dp[n-1]);
 }
 
 solution(n,input);
+
