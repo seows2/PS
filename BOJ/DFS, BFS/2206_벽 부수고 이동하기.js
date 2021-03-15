@@ -4,11 +4,9 @@ const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
 */
 
 const input = [
-    "4 4",
-    "0101",
-    "0101",
-    "0001",
-    "1110"
+    "1 1",
+    "0"
+
 
 ];
 class Node {
@@ -53,45 +51,44 @@ class Node {
 function solution(input) {
     const [n, m] = input.shift().split(" ").map(e => Number(e))
     let map = input.map(e => e.split("").map(e => Number(e)))
-    const cnt = Array.from({length: n}, () => Array(m).fill(0))
+    const queue = new Queue()
     const dxy = [[0,1],[0,-1],[1,0],[-1,0]]
 
-    const bfs = (startX, startY) => {
-        let visited = Array.from({length: n}, () => Array(m).fill(false))
-        const queue = new Queue()
-        queue.enqueue([startX, startY])
-        visited[startX][startY] = true
-
+    const bfs = (startX, startY, queue) => {
+        let visited = Array.from({length: n}, () => Array(m).fill(Infinity))
+        queue.enqueue([startX, startY, 1, 0])
+        visited[startX][startY] = 0
+        
         while (queue.length()) {
-            const [curX, curY] = queue.dequeue()
-
+            const [curX, curY, distance, breakCnt] = queue.dequeue()
+           
+            if(curX === n-1 && curY === m-1){
+                return distance
+            }
             dxy.forEach(([dx, dy]) => {
                 const nx = curX+dx
                 const ny = curY+dy
     
                 if(nx >= 0 && ny >= 0 && nx < n && ny < m){
-                    if(map[nx][ny] === 0 && !visited[nx][ny]){
-                        queue.enqueue([nx, ny])
-                        cnt[nx][ny] = cnt[nx][ny] === 0 ? cnt[curX][curY]+1 : Math.min(cnt[nx][ny],cnt[curX][curY]+1)
-                        visited[nx][ny] = true
+                    if(visited[nx][ny] > breakCnt){
+                        if(map[nx][ny] === 0){
+                            queue.enqueue([nx, ny, distance+1, breakCnt])
+                            visited[nx][ny] = breakCnt
+                        } else {
+                            if(breakCnt === 0){
+                                queue.enqueue([nx, ny,distance+1, breakCnt+1])
+                                visited[nx][ny] = breakCnt+1
+                            }
+                        }
                     }
                 }
             })
         }
+        return -1
     }
 
-    bfs(0,0)
+    const answer = bfs(0,0, queue)
 
-    for (let i = 0; i < n; i++) {
-       for (let j = 0; j < m; j++) {
-        if(map[i][j] === 1){
-            map[i][j] = 0
-            bfs(0,0)
-            map[i][j] = 1
-        }
-       }   
-    }
-    const answer = cnt[n-1][m-1] === 0 ? -1 : cnt[n-1][m-1]+1
     console.log(answer);
 }
 
