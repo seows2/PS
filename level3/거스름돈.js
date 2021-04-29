@@ -1,22 +1,18 @@
 function solution(n, money) {
     const dp = Array(n + 1).fill(0);
     const coins = money.sort((a, b) => a - b);
-    for (let i = 1; i <= n; i++) {
-        if (i % coins[0] === 0) dp[i] = 1
-    }
-    for (let i = 1; i < coins.length; i++) {
-        const coin = coins[i];
+    dp[0] = 1;
+    for (const coin of coins) {
         for (let j = coin; j <= n; j++) {
-            if (j === coin) dp[j] = dp[j] + 1 % 1000000007;
-            else dp[j] = (dp[j] + dp[j - coin]) % 1000000007;
+            dp[j] += dp[j - coin];
         }
     }
-    console.log(dp[n]);
+    console.log(dp);
     return dp[n];
 }
 
 solution(5, [1, 2, 5])
-
+//https://gurumee92.tistory.com/64
 
 function change(n, coins) {
     var arrExp = [1];                               // arrExp[n] : n을 표현하는 방법의 수
