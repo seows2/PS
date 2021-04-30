@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-class Solution {
+class Hash1 {
     public String solution(String[] participant, String[] completion) {
         Arrays.sort(participant);
         Arrays.sort(completion);
@@ -15,7 +15,7 @@ class Solution {
 
     // The following is main method to output testcase.
     public static void main(String[] args) {
-        Solution sol = new Solution();
+        Hash1 sol = new Hash1();
         String[] participant =  {"leo", "kiki", "eden"};
         String[] completion =  {"eden", "kiki"};
         String ret = sol.solution(participant, completion);
