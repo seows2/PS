@@ -16,16 +16,17 @@ const getLCM = (arr) => {
 }
 
 //최대 공약수
-const num1 = 24;
-const num2 = 18;
+const num1 = 9;
+const num2 = 7;
 const gcd = GCD(num1, num2);
 //최소 공배수
 const lcm = getLCM([num1, num2])
 
 // 3개 이상 최대 공약수
-const num3 = 6;
+const num3 = 5;
 const gcd3 = GCD(GCD(num1, num2), num3);
-
+const aa = 2007 % 6;
+console.log("aa", aa);
 //3개 이상 최소 공배수
 const lcm3 = getLCM([num1, num2, num3])
 console.log(gcd, lcm, gcd3, lcm3);

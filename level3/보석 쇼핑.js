@@ -53,10 +53,13 @@ function solution2(gems) {
   gems.forEach((gem, i) => {
     gemMap.delete(gem);
     gemMap.set(gem, i);
+    console.log(gemMap, i);
     if (gemMap.size === kinds) {
+      console.log("1231312");
       gemLength.push([gemMap.values().next().value + 1, i + 1]);
     }
   });
+  console.log(gemLength);
   gemLength.sort((a, b) => {
     if (a[1] - a[0] === b[1] - b[0]) {
       return a[1] - b[1];
@@ -66,4 +69,4 @@ function solution2(gems) {
   return gemLength[0];
 }
 
-solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]);
+solution2(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]);
