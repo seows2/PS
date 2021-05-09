@@ -1,10 +1,10 @@
 function solution(n, t, m, timetable) {
     const getCrewTime = (timetable) => {
         const crewTime = [];
-        timetable.forEach(e => {
-            const [hour, minuten] = e.split(":");
+        for (const time of timetable) {
+            const [hour, minuten] = time.split(":");
             crewTime.push(hour * 3600 + minuten * 60);
-        })
+        }
         return crewTime.sort();
     }
     const getTime = (mil) => {
@@ -19,29 +19,39 @@ function solution(n, t, m, timetable) {
         }
         return `${hour}:${sec}`;
     }
-    const busStart = 32400;
+    const BUS_START = 32400;
+    const BUS_INTERVAL = t * 60;
+
+
+    const busTable = Array.from({ length: n }, (_, i) => BUS_START + (i * BUS_INTERVAL));
+    const numberOfBus = busTable.length;
     const crewTime = getCrewTime(timetable);
-    let lastTime = 0;
-    let total = 0;
-    for (let i = 0; i < n; i++) {
-        let cnt = 0;
-        const nextBusTime = busStart + (i * t * 60);
-        for (let j = 0; j < m; j++) {
-            lastTime = nextBusTime;
-            if (crewTime[j] <= nextBusTime) {
-                cnt++;
-                total++;
-                lastTime = crewTime[j]
-            }
+    let cnt = 0;
+    let answer = 0;
+
+    for (const busTime of busTable) {
+        cnt++;
+        const onBoard = crewTime.filter(time => time <= busTime);
+        const onBoardLength = onBoard.length;
+        if (onBoardLength > m) crewTime.splice(0, m);
+        else crewTime.splice(0, onBoardLength);
+
+        if (cnt === numberOfBus && onBoardLength >= m) {
+            onBoard.splice(m);
+            const maxTime = Math.max(...onBoard);
+            answer = getTime(maxTime - 60);
+            console.log("1", answer);
+            return answer;
         }
-        crewTime.splice(0, cnt);
+        if (cnt === numberOfBus && onBoardLength < m) {
+            answer = getTime(busTime);
+            console.log("2", answer);
+            return answer;
+        }
     }
-    if (total < m) {
-        return getTime(lastTime);
-    }
-
-    return crewTime.length ? getTime(lastTime) : getTime(lastTime - 60)
-
+    answer = getTime(busTable[busTable.length - 1]);
+    console.log("3", answer);
+    return answer
 }
 
-solution(1, 1, 5, ["08:00", "08:01", "08:02", "08:03"])
+solution(2, 10, 2, ["09:10", "09:09", "09:09", "08:00"])
