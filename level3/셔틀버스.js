@@ -5,7 +5,7 @@ function solution(n, t, m, timetable) {
             const [hour, minuten] = time.split(":");
             crewTime.push(hour * 3600 + minuten * 60);
         }
-        return crewTime.sort();
+        return crewTime.sort((a, b) => a - b);
     }
     const getTime = (mil) => {
         let hour = Math.floor(mil / 3600);
