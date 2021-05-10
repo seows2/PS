@@ -40,17 +40,14 @@ function solution(n, t, m, timetable) {
             onBoard.splice(m);
             const maxTime = Math.max(...onBoard);
             answer = getTime(maxTime - 60);
-            console.log("1", answer);
             return answer;
         }
         if (cnt === numberOfBus && onBoardLength < m) {
             answer = getTime(busTime);
-            console.log("2", answer);
             return answer;
         }
     }
     answer = getTime(busTable[busTable.length - 1]);
-    console.log("3", answer);
     return answer
 }
 
