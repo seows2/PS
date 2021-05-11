@@ -1,9 +1,4 @@
 function solution(board) {
-  const STRAIGHT = 100;
-  const CORNER = 500;
-  const dxy = [[0, 1], [1, 0], [0, -1], [-1, 0]] //오른, 아래, 왼, 위
-  // (1 1) 1 2, 2 1, 1 0, 0 1
-
   const isConfict = (dx, dy) => {
     if (dx < 0 || dx >= board.length || dy < 0 || dy >= board.length) return true;
 
@@ -21,10 +16,12 @@ function solution(board) {
       for (let i = 0; i < 4; i++) {
         const dx = curX + dxy[i][0];
         const dy = curY + dxy[i][1];
-        let cost = 0;
+
         if (isConfict(dx, dy)) continue;
+
+        let cost = CORNER + 100;
         if (curDir === null || curDir === i) cost = STRAIGHT;
-        else cost = CORNER + 100;
+
         const totalCost = curCost + cost
 
         if (board[dx][dy] === 0 && visited[dx][dy] >= totalCost) {
@@ -36,6 +33,10 @@ function solution(board) {
     return visited[board.length - 1][board.length - 1];
   }
 
+  const STRAIGHT = 100;
+  const CORNER = 500;
+  const dxy = [[0, 1], [1, 0], [0, -1], [-1, 0]] //오른, 아래, 왼, 위
+  // (1 1) 1 2, 2 1, 1 0, 0 1
 
   const answer = bfs(0, 0, board.length);
   return answer
