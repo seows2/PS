@@ -9,7 +9,7 @@ function solution(input) {
     const check = (mid, M, treeHeights) => {
         let sum = 0;
         for (const height of treeHeights) {
-            if (height < mid) continue;
+            if (height <= mid) continue;
             const remain = height - mid;
             sum += remain
         }
@@ -20,8 +20,8 @@ function solution(input) {
     }
     const [N, M] = input[0].split(" ").map(e => Number(e));
     const treeHeights = input[1].split(" ").map(e => Number(e));
-    let left = 1;
-    let right = Number.MAX_SAFE_INTEGER
+    let left = 0;
+    let right = Number.MAX_SAFE_INTEGER;
     while (left <= right) {
         const mid = Math.floor((left + right) / 2)
         if (check(mid, M, treeHeights)) {
