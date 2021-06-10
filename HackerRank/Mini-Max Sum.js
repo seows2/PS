@@ -27,8 +27,11 @@ function readLine() {
  */
 
 function miniMaxSum(arr) {
-    const sotedArr = arr.sort((a,b) => b-a);
-    console.log(sotedArr);
+    const sortedArr = arr.sort((a,b) => a-b);
+    const MinSum = sortedArr.slice(0, 4).reduce((a,b) => a+b, 0);
+    const MaxSum = sortedArr.slice(sortedArr.length-4, sortedArr.length).reduce((a,b) => a+b, 0);
+    
+    console.log(MinSum, MaxSum)
 
 }
 

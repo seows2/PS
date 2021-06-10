@@ -27,9 +27,10 @@ function readLine() {
  */
 
 function staircase(n) {
-    for (let i = 0; i < n; i++) {
-        const element = array[i];
-        
+    for (let i = 1; i <= n; i++) {
+       const blank = " ".repeat(n-i);
+       const plat = "#".repeat(i);
+       console.log(blank + plat);
     }
 
 }
