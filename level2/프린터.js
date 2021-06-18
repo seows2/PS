@@ -33,23 +33,29 @@ priorities	        location	return
 */
 
 function solution(priorities, location) {
-  let ans = 1;
-  while (true) {
-    if (priorities[0] < Math.max.apply(null, priorities)) {
-      priorities.push(priorities[0]);
-      priorities.shift();
-      if (location === 0) {
-        location += priorities.length - 1;
+  let answer = 0;
+  let curLocation = location;
+
+  while (priorities.length) {
+    const maxPriority = Math.max(...priorities);
+    const firstElement = priorities.shift();
+
+    if(firstElement < maxPriority){
+      //더 높은 우선순위가 있음
+      priorities.push(firstElement);
+      if (curLocation === 0) {
+        curLocation += priorities.length - 1;
       } else {
-        location--;
+        curLocation--;
       }
-    } else if (location === 0) {
-      return ans;
     } else {
-      priorities.shift();
-      ans++;
-      location--;
+      answer++;
+      if(curLocation === 0){
+        return answer;
+      }
+      curLocation--;
     }
-  }
+  };
 }
-console.log(solution([1, 1, 9, 1, 1, 1], 0));
+
+solution([1, 1, 9, 1, 1, 1], 0)
